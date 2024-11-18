@@ -1,0 +1,13 @@
+.product-page {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 840px;
+  min-height: calc(100vh - 120px); 
+  padding-top: 60px; 
+  padding: 20px;
+  box-sizing: border-box;
+  gap: 20px;
+  overflow: hidden;
+}

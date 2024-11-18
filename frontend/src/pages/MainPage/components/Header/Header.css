@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid #56565666;
+    position: sticky;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .header img{
+    height: 50px;
+  }
+
+  .home-button img {
+    height: 70px;
+  }
+  
+  .header-title {
+    font-size: 38px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color:black;
+  }
+  
+  .cart-button, .home-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }

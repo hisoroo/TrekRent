@@ -1,0 +1,77 @@
+.reservation-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f945;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  min-width: 300px;
+  min-height: 300px;
+  margin: 20px;
+  margin-right: 50px;
+}
+
+.reservation-window h1 {
+  font-size: 24px;
+  color: #333;
+  text-align: center; 
+  margin-top: 0%;
+}
+
+.reservation-window p {
+  margin-bottom: 20px;
+  margin-top: 0;
+  font-size: 18px;
+  color: #666;
+  text-align: center; 
+}
+
+.date-picker-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.date-picker-container label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.date-picker {
+  width: 90%;
+  height: 44px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.error {
+  font-size: 14px;
+  color: red;
+  margin: 10px 0;
+}
+
+.rent-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rent-button:hover {
+  background-color: #0056b3;
+}

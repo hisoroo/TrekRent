@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower miejski",
+    "price": 20
+  },
+  {
+    "id": 2,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower górski",
+    "price": 30
+  },
+  {
+    "id": 3,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower szosowy",
+    "price": 40
+  },
+  {
+    "id": 4,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower trekkingowy",
+    "price": 50
+  },
+  {
+    "id": 5,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower elektryczny",
+    "price": 60
+  },
+  {
+    "id": 6,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower składany",
+    "price": 25
+  },
+  {
+    "id": 7,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower BMX",
+    "price": 35
+  },
+  {
+    "id": 8,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower tandem",
+    "price": 45
+  },
+  {
+    "id": 9,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower dziecięcy",
+    "price": 15
+  },
+  {
+    "id": 10,
+    "image": "/bike-svgrepo-com.svg",
+    "name": "Rower fatbike",
+    "price": 55
+  }
+]

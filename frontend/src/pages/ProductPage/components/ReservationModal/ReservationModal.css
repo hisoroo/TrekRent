@@ -1,0 +1,127 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .modal-product-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .modal-product-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .modal-details {
+    flex: 1;
+  }
+  
+  .modal-details h3 {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .date-range {
+    font-size: 16px;
+    color: #666;
+    margin: 8px 0;
+  }
+  
+  .total-cost {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    margin: 15px 0;
+  }
+  
+  .confirmation-text {
+    text-align: center;
+    font-weight: 700;
+    font-size: 28px;
+    margin: 0;
+    padding: 2%;
+    color: #333;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .modal-buttons button:first-child {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .modal-buttons button:last-child {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .modal-buttons button:hover {
+    transform: translateY(-1px);
+  }
+  
+  .modal-buttons button:first-child:hover {
+    background-color: #0056b3;
+  }
+  
+  .modal-buttons button:last-child:hover {
+    background-color: #e9ecef;
+  }
+  
+  .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .close:hover {
+    color: #333;
+    transform: scale(1.1);
+  }

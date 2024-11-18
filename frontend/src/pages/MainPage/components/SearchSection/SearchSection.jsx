@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./SearchSection.css";
-import equipmentData from "/src/equipmentData.json";
+import equipmentData from '../../../../utils/equipmentData.json';
 
 export default function SearchSection({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");

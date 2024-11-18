@@ -3,7 +3,7 @@ import "./MainPage.css";
 import Header from "./components/Header/Header";
 import SearchSection from "./components/SearchSection/SearchSection";
 import EquipmentSection from "./components/EquipmentSection/EquipmentSection";
-import equipmentData from "/src/equipmentData.json";
+import equipmentData from '../../utils/equipmentData.json';
 
 export default function MainPage() {
   const [filteredEquipment, setFilteredEquipment] = useState(equipmentData);

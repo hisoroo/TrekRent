@@ -5,7 +5,7 @@ import Header from "../MainPage/components/Header/Header";
 import ReservationModal from "./components/ReservationModal/ReservationModal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import equipmentData from "../../equipmentData.json";
+import equipmentData from '../../utils/equipmentData.json';
 import "./ProductPage.css";
 
 export default function ProductPage() {
@@ -39,7 +39,7 @@ export default function ProductPage() {
   }, [id]);
 
   const saveToCart = (item) => {
-    const cartKey = `cart_${productData.id}`;
+    const cartKey = `cart`;
     const currentCart = JSON.parse(localStorage.getItem(cartKey)) || [];
     const newCart = [...currentCart, item];
     localStorage.setItem(cartKey, JSON.stringify(newCart));
@@ -57,6 +57,7 @@ export default function ProductPage() {
     };
 
     saveToCart(cartItem);
+    window.dispatchEvent(new Event("cartUpdated"));
     setReservationData(reservationDetails);
     setShowModal(true);
   };

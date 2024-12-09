@@ -8,13 +8,23 @@ export default function Header() {
 
   useEffect(() => {
     const updateCartCount = () => {
-      const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-      setCartItemsCount(cartItems.length);
+      try {
+        const cartData = localStorage.getItem('cart');
+        if (cartData) {
+          const parsedData = JSON.parse(cartData);
+          const itemsCount = parsedData?.items?.length || 0;
+          setCartItemsCount(itemsCount);
+        } else {
+          setCartItemsCount(0);
+        }
+      } catch (error) {
+        console.error('Błąd podczas aktualizacji licznika koszyka:', error);
+        setCartItemsCount(0);
+      }
     };
+
     updateCartCount();
-
     window.addEventListener('storage', updateCartCount);
-
     window.addEventListener('cartUpdated', updateCartCount);
 
     return () => {

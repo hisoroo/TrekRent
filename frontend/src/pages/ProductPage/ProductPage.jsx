@@ -39,12 +39,19 @@ export default function ProductPage() {
   }, [id]);
 
   const saveToCart = (item) => {
-    const cartKey = `cart`;
-    const currentCart = JSON.parse(localStorage.getItem(cartKey)) || [];
-    const newCart = [...currentCart, item];
-    localStorage.setItem(cartKey, JSON.stringify(newCart));
+    try {
+      const cartKey = 'cart';
+      const currentCart = JSON.parse(localStorage.getItem(cartKey)) || { items: [] };
+      const newCart = {
+        items: Array.isArray(currentCart.items) 
+          ? [...currentCart.items, item]
+          : [item],
+      };
+      localStorage.setItem(cartKey, JSON.stringify(newCart));
+    } catch (error) {
+      console.error('Błąd podczas zapisywania do koszyka:', error);
+    }
   };
-
   const handleReserveClick = (reservationDetails) => {
     const cartItem = {
       id: productData.id,

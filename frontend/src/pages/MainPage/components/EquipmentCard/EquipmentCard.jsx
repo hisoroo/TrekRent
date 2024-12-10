@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import './EquipmentCard.css';
 import { Link } from "react-router-dom";
 

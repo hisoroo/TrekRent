@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "./ProductCard.css";
 
 export default function ProductCard({ image, name, description }) {

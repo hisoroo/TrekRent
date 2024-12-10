@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useRef } from "react";
 import "./SearchSection.css";
 import equipmentData from '../../../../utils/equipmentData.json';
 
@@ -57,7 +58,7 @@ export default function SearchSection({ onSearch }) {
         />
         {searchTerm && (
           <button className="clear-button" onClick={handleClearInput}>
-            &#x2716;
+            ×
           </button>
         )}
       </div>

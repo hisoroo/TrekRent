@@ -77,6 +77,7 @@ export default function ReservationWindow({ price, onReserve }) {
       <div className="date-picker-container">
         <label htmlFor="start-date">Data wypożyczenia:</label>
         <DatePicker
+          onKeyDown={(e) => e.preventDefault()}
           selected={startDate}
           onChange={handleStartDateChange}
           dateFormat="yyyy-MM-dd"
@@ -94,6 +95,7 @@ export default function ReservationWindow({ price, onReserve }) {
           id="end-date"
           name="end-date"
           className="date-picker"
+          onKeyDown={(e) => e.preventDefault()}
         />
       </div>
       {isCostUpdated && !error && <p>Całkowity koszt: {totalCost} zł</p>}

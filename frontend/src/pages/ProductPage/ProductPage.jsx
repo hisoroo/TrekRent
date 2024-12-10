@@ -5,7 +5,7 @@ import Header from "../MainPage/components/Header/Header";
 import ReservationModal from "./components/ReservationModal/ReservationModal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import equipmentData from '../../utils/equipmentData.json';
+//import equipmentData from '../../utils/equipmentData.json';
 import "./ProductPage.css";
 
 export default function ProductPage() {
@@ -25,18 +25,28 @@ export default function ProductPage() {
   });
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const product = equipmentData.find((item) => item.id === parseInt(id));
+  //   if (product) {
+  //     setProductData({
+  //       id: product.id,
+  //       image: product.image,
+  //       name: product.name,
+  //       description: product.description,
+  //       price: product.price,
+  //     });
+  //   }
+  // }, [id]);
+
   useEffect(() => {
-    const product = equipmentData.find((item) => item.id === parseInt(id));
-    if (product) {
-      setProductData({
-        id: product.id,
-        image: product.image,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-      });
-    }
+    fetch(`http://localhost:8080/api/equipment/catalog/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProductData(data);
+      })
+      .catch((error) => console.error("Error fetching product data:", error));
   }, [id]);
+  
 
   const saveToCart = (item) => {
     try {

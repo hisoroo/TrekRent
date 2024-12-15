@@ -1,0 +1,95 @@
+/* BillComponent.css */
+
+.bill-container {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    max-width: 600px;
+    margin: 10px 0;
+}
+
+.bill-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0 0 20px 0;
+    text-align: center;
+}
+
+.bill-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.bill-row span:first-child {
+    font-size: 16px;
+    color: #666;
+}
+
+.bill-row span:last-child {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+.bill-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.bill-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bill-label {
+    font-size: 16px;
+    color: #666;
+}
+
+.bill-equation {
+    color: gray;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.bill-total {
+    font-weight: bold;
+    font-size: 1em;
+    color: #007bff;
+}
+
+.bill-button {
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.bill-button:hover {
+    background-color: #0056b3;
+}

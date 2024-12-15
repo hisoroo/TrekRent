@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  position: relative; /* Dodajemy pozycjonowanie względne */
+  position: relative; 
 }
 
 .input-container {
@@ -30,7 +30,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 24px;
   color: red;
 }
 
@@ -59,8 +59,8 @@
   overflow-y: auto;
   position: absolute;
   background-color: white;
-  width: 55%; /* Dopasowanie szerokości do inputa */
-  top: calc(80% + 5px); /* Ustawienie listy poniżej inputa */
+  width: 55%; 
+  top: calc(80% + 5px);
   left: 17%;
   z-index: 1000;
 }

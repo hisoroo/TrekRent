@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import "./EquipmentSection.css";
 import EquipmentCard from "../EquipmentCard/EquipmentCard";
 
@@ -19,3 +19,14 @@ export default function EquipmentSection({ equipment }) {
     </section>
   );
 }
+
+EquipmentSection.propTypes = {
+  equipment: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};

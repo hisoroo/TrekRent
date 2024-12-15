@@ -5,7 +5,7 @@ import Header from "../MainPage/components/Header/Header";
 import ReservationModal from "./components/ReservationModal/ReservationModal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import equipmentData from "../../equipmentData.json";
+//import equipmentData from '../../utils/equipmentData.json';
 import "./ProductPage.css";
 
 export default function ProductPage() {
@@ -25,26 +25,43 @@ export default function ProductPage() {
   });
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const product = equipmentData.find((item) => item.id === parseInt(id));
+  //   if (product) {
+  //     setProductData({
+  //       id: product.id,
+  //       image: product.image,
+  //       name: product.name,
+  //       description: product.description,
+  //       price: product.price,
+  //     });
+  //   }
+  // }, [id]);
+
   useEffect(() => {
-    const product = equipmentData.find((item) => item.id === parseInt(id));
-    if (product) {
-      setProductData({
-        id: product.id,
-        image: product.image,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-      });
-    }
+    fetch(`http://localhost:8080/api/equipment/catalog/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProductData(data);
+      })
+      .catch((error) => console.error("Error fetching product data:", error));
   }, [id]);
+  
 
   const saveToCart = (item) => {
-    const cartKey = `cart_${productData.id}`;
-    const currentCart = JSON.parse(localStorage.getItem(cartKey)) || [];
-    const newCart = [...currentCart, item];
-    localStorage.setItem(cartKey, JSON.stringify(newCart));
+    try {
+      const cartKey = 'cart';
+      const currentCart = JSON.parse(localStorage.getItem(cartKey)) || { items: [] };
+      const newCart = {
+        items: Array.isArray(currentCart.items) 
+          ? [...currentCart.items, item]
+          : [item],
+      };
+      localStorage.setItem(cartKey, JSON.stringify(newCart));
+    } catch (error) {
+      console.error('Błąd podczas zapisywania do koszyka:', error);
+    }
   };
-
   const handleReserveClick = (reservationDetails) => {
     const cartItem = {
       id: productData.id,
@@ -57,6 +74,7 @@ export default function ProductPage() {
     };
 
     saveToCart(cartItem);
+    window.dispatchEvent(new Event("cartUpdated"));
     setReservationData(reservationDetails);
     setShowModal(true);
   };

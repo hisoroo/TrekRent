@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./ReservationWindow.css";
@@ -76,6 +77,7 @@ export default function ReservationWindow({ price, onReserve }) {
       <div className="date-picker-container">
         <label htmlFor="start-date">Data wypożyczenia:</label>
         <DatePicker
+          onKeyDown={(e) => e.preventDefault()}
           selected={startDate}
           onChange={handleStartDateChange}
           dateFormat="yyyy-MM-dd"
@@ -93,6 +95,7 @@ export default function ReservationWindow({ price, onReserve }) {
           id="end-date"
           name="end-date"
           className="date-picker"
+          onKeyDown={(e) => e.preventDefault()}
         />
       </div>
       {isCostUpdated && !error && <p>Całkowity koszt: {totalCost} zł</p>}

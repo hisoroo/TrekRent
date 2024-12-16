@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
-// BillComponent.jsx
+import { useState } from "react";
+import { toast } from 'react-toastify';
 import "./BillComponent.css";
 
-const BillComponent = ({ startDate, endDate, productName, totalCost }) => {
+const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId, timestamp, onReservationComplete }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const formatDate = (date) => {
     if (!date) return "Brak daty";
 
@@ -36,8 +40,70 @@ const BillComponent = ({ startDate, endDate, productName, totalCost }) => {
     return diffDays > 0 ? diffDays : 1;
   };
 
-  const handleReserve = () => {
-    console.log("Rezerwacja dokonana");
+  const formatDateForAPI = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
+
+  const handleReserve = async () => {
+    setIsLoading(true);
+    setError(null); // Reset błędu przed rozpoczęciem
+    
+    try {
+      const userDataString = localStorage.getItem('user');
+      const userData = JSON.parse(userDataString);
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('Nie jesteś zalogowany');
+      }
+
+      const requestData = {
+        equipment_id: Number(equipmentId),
+        user_id: Number(userData.id),
+        start_date: formatDateForAPI(startDate),
+        end_date: formatDateForAPI(endDate),
+        total_cost: Number(totalCost)
+      };
+
+      const response = await fetch('http://localhost:8000/api/rentals', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token.replace(/"/g, '')}`
+        },
+        body: JSON.stringify(requestData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Błąd podczas rezerwacji');
+      }
+
+      // Wyczyść konkretny przedmiot z koszyka używając timestamp
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      if (cart && cart.items) {
+        const updatedItems = cart.items.filter(item => item.timestamp !== timestamp);
+        localStorage.setItem('cart', JSON.stringify({ items: updatedItems }));
+      }
+      
+      window.dispatchEvent(new Event('cartUpdated'));
+
+      toast.success('Rezerwacja została pomyślnie utworzona!', {
+        onClose: () => {
+          if (onReservationComplete) {
+            onReservationComplete();
+          }
+        },
+        autoClose: 600
+      });
+      
+    } catch (err) {
+      setError(err.message);
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const numberOfDays = calculateDays();
@@ -75,7 +141,14 @@ const BillComponent = ({ startDate, endDate, productName, totalCost }) => {
           </div>
         </div>
 
-        <button className="bill-button" onClick={handleReserve}>Zarezerwuj</button>
+        {error && <div className="error-message">{error}</div>}
+        <button 
+          className="bill-button" 
+          onClick={handleReserve}
+          disabled={isLoading}
+        >
+          {"Zarezerwuj"}
+        </button>
       </div>
     </div>
   );

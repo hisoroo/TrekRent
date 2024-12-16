@@ -1,13 +1,12 @@
 .cart-card {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+  background: white;
+  border-radius: 8px;
   padding: 20px;
-  overflow: hidden;
+  width: 100%;
 }
 
 .cart-card img {
-  width: 300px;
+  width: 400px;
   height: 300px;
   object-fit: cover;
   border-radius: 8px;
@@ -15,18 +14,63 @@
 
 .cart-card-remove-button {
   position: absolute;
-  right: 0px;
-  top: 0px;
+  top: 5px;
+  right: 5px;
   background: none;
   border: none;
-  font-size: 30px;
+  cursor: pointer;
+  color: #666;
+  font-size: 2rem;
+  transition: color 0.3s ease;
 }
 
-.cart-card {
-  display: flex;
-  flex-direction: column;
-  padding: 0 10px;
+.cart-card-remove-button:hover {
+  color: #ff4444;
 }
+
+.cart-card-content {
+  display: flex;
+  gap: 20px;
+}
+
+.cart-card-left {
+  flex: 0 0 200px;
+}
+
+.cart-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 15px 0 ;
+}
+
+.cart-card-name {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.cart-card-details {
+  flex: 1;
+}
+
+.cart-card-description {
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.cart-card-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.cart-card-info p {
+  margin: 5px 0;
+  color: #444;
+}
+
 .cart-card-remove-button::before {
   content: "×";
 }

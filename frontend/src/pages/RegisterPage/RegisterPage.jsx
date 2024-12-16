@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./RegisterPage.css";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,7 +32,7 @@ const RegisterPage = () => {
   };
 
   const formatPostalCode = (value) => {
-    const digits = value.replace(/\D/g, '');
+    const digits = value.replace(/\D/g, "");
     if (digits.length <= 2) return digits;
     return `${digits.slice(0, 2)}-${digits.slice(2, 5)}`;
   };
@@ -39,7 +42,7 @@ const RegisterPage = () => {
     if (formattedValue.length <= 6) {
       setFormData({
         ...formData,
-        postalCode: formattedValue
+        postalCode: formattedValue,
       });
     }
   };
@@ -47,16 +50,47 @@ const RegisterPage = () => {
   const validateConfirmPassword = (e) => {
     const confirmPassword = e.target.value;
     if (confirmPassword !== formData.password) {
-      e.target.setCustomValidity('Hasła muszą być identyczne');
+      e.target.setCustomValidity("Hasła muszą być identyczne");
     } else {
-      e.target.setCustomValidity('');
+      e.target.setCustomValidity("");
     }
     handleChange(e);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement registration logic
+    try {
+      const response = await fetch("http://localhost:8000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          firstname: formData.firstName,
+          lastname: formData.lastName,        
+          phonenumber: formData.phoneNumber,
+          street: formData.street,
+          house_number: formData.houseNumber,
+          apartment_number: formData.apartmentNumber,
+          postal_code: formData.postalCode,
+          city: formData.city,
+          country: formData.country,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Rejestracja zakończona sukcesem!");
+        navigate("/login");
+      } else {
+        const error = await response.json();
+        toast.error(error.detail || "Błąd rejestracji");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error("Błąd połączenia z serwerem");
+    }
   };
 
   return (

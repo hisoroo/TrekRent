@@ -49,7 +49,6 @@ def find_available_equipment_of_type(db: Session, equipment_type_id: int) -> Equ
         ).first()
 
 def get_random_available_equipment_of_type(db: Session, equipment_type_id: int) -> Equipment:
-    """Znajdź losowy dostępny sprzęt danego typu"""
     return db.query(Equipment)\
         .filter(
             Equipment.equipment_type_id == equipment_type_id,

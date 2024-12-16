@@ -1,16 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import "./Header.css";
+import { FaSignInAlt, FaUserPlus, FaChartLine, FaSignOutAlt, FaTools, FaMagic } from "react-icons/fa";
 
 export default function Header() {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateCartCount = () => {
       try {
-        const cartData = localStorage.getItem('cart');
+        const cartData = localStorage.getItem("cart");
         if (cartData) {
           const parsedData = JSON.parse(cartData);
           const itemsCount = parsedData?.items?.length || 0;
@@ -19,18 +23,18 @@ export default function Header() {
           setCartItemsCount(0);
         }
       } catch (error) {
-        console.error('Błąd podczas aktualizacji licznika koszyka:', error);
+        console.error("Błąd podczas aktualizacji licznika koszyka:", error);
         setCartItemsCount(0);
       }
     };
 
     updateCartCount();
-    window.addEventListener('storage', updateCartCount);
-    window.addEventListener('cartUpdated', updateCartCount);
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener("cartUpdated", updateCartCount);
 
     return () => {
-      window.removeEventListener('storage', updateCartCount);
-      window.removeEventListener('cartUpdated', updateCartCount);
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("cartUpdated", updateCartCount);
     };
   }, []);
 
@@ -41,9 +45,62 @@ export default function Header() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    // Tutaj można dodać sprawdzanie stanu logowania z localStorage lub API
+    const checkLoginStatus = () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        setIsLoggedIn(true);
+        setUserRole(parsedUserData.role);
+      } else {
+        setIsLoggedIn(false);
+        setUserRole(null);
+      }
+    };
+
+    checkLoginStatus();
+    window.addEventListener("storage", checkLoginStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setUserRole(null);
+    setIsMenuOpen(false);
+    navigate('/');
+  };
+
+  const handleInitializeEquipment = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/equipment-types/');
+      const equipmentTypes = await response.json();
+
+      const count = 5;
+      for (const type of equipmentTypes) {
+        await fetch(`http://localhost:8000/api/equipment/initialize/${type.id}?count=${count}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+        });
+      }
+      alert('Pomyślnie zainicjalizowano sprzęt dla wszystkich typów!');
+    } catch (error) {
+      console.error('Błąd podczas inicjalizacji sprzętu:', error);
+      alert('Wystąpił błąd podczas inicjalizacji sprzętu');
+    }
+  };
 
   return (
     <nav className="header">
@@ -61,13 +118,43 @@ export default function Header() {
           )}
         </Link>
         <div className="account-menu" ref={menuRef}>
-          <button className="account-button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button
+            className="account-button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
             <img src="/user-alt-1-svgrepo-com.svg" alt="account" />
           </button>
           {isMenuOpen && (
             <div className="menu-dropdown">
-              <Link to="/login" className="menu-item">Zaloguj się</Link>
-              <Link to="/register" className="menu-item">Zarejestruj się</Link>
+              {isLoggedIn ? (
+                <>
+                  {userRole === "user" && (
+                    <>
+                      <Link to="/manage-equipment" className="menu-item">
+                        <FaTools className="menu-icon" style={{ marginRight: '8px' }} /> Zarządzanie sprzętem
+                      </Link>
+                      <Link to="/trends" className="menu-item">
+                        <FaChartLine className="menu-icon" style={{ marginRight: '8px' }} /> Analiza trendów
+                      </Link>
+                      <button onClick={handleInitializeEquipment} className="menu-item" style={{color: '#ff6b6b'}}>
+                        <FaMagic className="menu-icon" style={{ marginRight: '8px' }} /> Inicjalizuj sprzęt (TEST)
+                      </button>
+                    </>
+                  )}
+                  <button onClick={handleLogout} className="menu-item">
+                    <FaSignOutAlt className="menu-icon" style={{ marginRight: '8px' }} /> Wyloguj się
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="menu-item">
+                    <FaSignInAlt className="menu-icon" style={{ marginRight: '8px' }} /> Zaloguj się
+                  </Link>
+                  <Link to="/register" className="menu-item">
+                    <FaUserPlus className="menu-icon" style={{ marginRight: '8px' }} /> Zarejestruj się
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>

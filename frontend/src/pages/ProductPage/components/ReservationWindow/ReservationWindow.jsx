@@ -4,13 +4,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./ReservationWindow.css";
 
-export default function ReservationWindow({ price, onReserve }) {
+export default function ReservationWindow({ price, onReserve, equipmentId }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [error, setError] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const [isCostUpdated, setIsCostUpdated] = useState(false);
-
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [availableCount, setAvailableCount] = useState(0);
 
   useEffect(() => {
     const returnDate = new Date();
@@ -18,6 +19,22 @@ export default function ReservationWindow({ price, onReserve }) {
     setEndDate(returnDate);
     calculateInitialCost(new Date(), returnDate);
   }, [price]);
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/stock-levels/available/${equipmentId}`);
+        const data = await response.json();
+        setAvailableCount(data.count);
+        setIsAvailable(data.count > 0);
+      } catch (error) {
+        console.error('Error checking availability:', error);
+        setIsAvailable(false);
+      }
+    };
+
+    checkAvailability();
+  }, [equipmentId]);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -51,29 +68,23 @@ export default function ReservationWindow({ price, onReserve }) {
     setIsCostUpdated(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (endDate <= startDate) {
       setError("Data zwrotu musi być późniejsza niż data wypożyczenia.");
-    } else {
-      setError("");
-      onReserve({
-        startDate,
-        endDate,
-        totalCost,
-      });
-      console.log(
-        "Wypożyczono od",
-        startDate.toLocaleDateString(),
-        "do",
-        endDate.toLocaleDateString()
-      );
+      return;
     }
+
+    onReserve({
+      startDate,
+      endDate,
+      totalCost,
+    });
   };
 
   return (
     <div className="reservation-window">
       <h1>Wypożycz produkt</h1>
-      <p>Cena: {price} zł/za dobę</p>
+      <p>Cena: {price} zł/za dobę</p>   
       <div className="date-picker-container">
         <label htmlFor="start-date">Data wypożyczenia:</label>
         <DatePicker
@@ -98,10 +109,24 @@ export default function ReservationWindow({ price, onReserve }) {
           onKeyDown={(e) => e.preventDefault()}
         />
       </div>
+
+      <div className="availability-info">
+        <p className={`availability-status ${isAvailable ? 'available' : 'unavailable'}`}>
+          {isAvailable 
+            ? `Dostępnych sztuk: ${availableCount}` 
+            : 'Produkt tymczasowo niedostępny'}
+        </p>
+      </div>
+
       {isCostUpdated && !error && <p>Całkowity koszt: {totalCost} zł</p>}
       {error && <p className="error">{error}</p>}
-      <button onClick={handleSubmit} className="rent-button">
-        ZAREZERWUJ
+      
+      <button 
+        onClick={handleSubmit} 
+        className={`rent-button ${!isAvailable ? 'disabled' : ''}`}
+        disabled={!isAvailable}
+      >
+        {isAvailable ? 'ZAREZERWUJ' : 'NIEDOSTĘPNY'}
       </button>
     </div>
   );

@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 8px;
-  background-color: #f9f9f945;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   max-width: 400px;
   min-width: 300px;
   min-height: 300px;
@@ -16,16 +16,18 @@
 
 .reservation-window h1 {
   font-size: 24px;
-  color: #333;
+  color: #1a1a1a;
   text-align: center; 
   margin-top: 0%;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .reservation-window p {
   margin-bottom: 20px;
   margin-top: 0;
   font-size: 18px;
-  color: #666;
+  color: #4a4a4a;
   text-align: center; 
 }
 
@@ -38,8 +40,9 @@
 
 .date-picker-container label {
   font-size: 18px;
-  color: #333;
-  margin-bottom: 5px;
+  color: #4a4a4a;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .date-picker {
@@ -47,21 +50,39 @@
   height: 44px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  background-color: #fafafa;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+.date-picker:hover {
+  border-color: #007bff;
+}
+
+.date-picker:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
 .error {
   font-size: 14px;
-  color: red;
+  color: #dc2626;
   margin: 10px 0;
+  background-color: #fef2f2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+  width: 90%;
+  text-align: center;
 }
 
 .rent-button {
   width: 100%;
   padding: 14px;
-  background-color: #007bff;
+  background: linear-gradient(45deg, #007bff, #0056b3);
   color: #fff;
   font-size: 16px;
   font-weight: bold;
@@ -69,9 +90,53 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: rgba(0, 123, 255, 0.2) 0px 4px 12px;
 }
 
 .rent-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(45deg, #0056b3, #004494);
+  transform: translateY(-2px);
+}
+
+.rent-button:active {
+  transform: translateY(0);
+}
+
+.rent-button.disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.rent-button.disabled:hover {
+  background-color: #cccccc;
+  transform: none;
+}
+
+.availability {
+  padding: 12px;
+  border-radius: 6px;
+  margin: 15px 0;
+  font-weight: 600;
+  text-align: center;
+  width: 90%;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.available {
+  color: #0369a1 !important; 
+}
+
+.unavailable {
+  color: #b91c1c !important;
+}
+
+.availability-status {
+  font-weight: 500;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
 }

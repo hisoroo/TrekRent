@@ -24,8 +24,8 @@
 }
 
 .form-group {
-  margin-bottom: 2.5rem;
   position: relative;
+  margin-bottom: 2.5rem;
 }
 
 .form-group label {
@@ -252,10 +252,9 @@ input:-webkit-autofill {
   }
 }
 
-.password-input-wrapper {
-  position: relative;
-  width: 100%;
-}
+/* .password-input-wrapper {
+  display: none;
+} */
 
 .toggle-password {
   position: absolute;
@@ -265,28 +264,39 @@ input:-webkit-autofill {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  color: #666;
+  z-index: 2;
+}
+
+.back-button {
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #666;
-  transition: color 0.3s ease;
+  gap: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.toggle-password:hover {
-  color: #4a90e2;
+.back-button:hover {
+  color: #357abd;
+  transform: translateX(-3px);
 }
 
-.toggle-password svg {
+.back-button svg {
   width: 1.2rem;
   height: 1.2rem;
-  transition: transform 0.3s ease;
 }
 
-.toggle-password:hover svg {
-  transform: scale(1.1);
-}
-
-.password-input-wrapper input {
-  padding-right: 3rem;
+@media (max-width: 768px) {
+  .back-button {
+    left: 1rem;
+    top: 1rem;
+  }
 }

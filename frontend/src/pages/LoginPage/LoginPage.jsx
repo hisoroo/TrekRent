@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,6 +45,7 @@ const LoginPage = () => {
           toast.error(data.detail);
         } else if (response.status === 401) {
           toast.error('Nieprawidłowy email lub hasło');
+          navigate('/login'); // Przekierowanie do strony logowania
         } else {
           toast.error('Wystąpił błąd podczas logowania');
         }
@@ -84,9 +85,10 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <Link to="/" className="browse-catalog-button">
-        Przeglądaj katalog bez logowania
-      </Link>
+      <button className="back-button" onClick={() => navigate('/')}>
+        <FaArrowLeft />
+        Wróć do przeglądania katalogu bez logowania
+      </button>
       <div className="login-box">
         <h2>Zaloguj się</h2>
         <form onSubmit={handleSubmit}>

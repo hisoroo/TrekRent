@@ -212,11 +212,42 @@ input:-webkit-autofill {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.back-button {
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  color: #357abd;
+  transform: translateX(-3px);
+}
+
+.back-button svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
 @media (max-width: 768px) {
   .browse-catalog-button {
     top: 1rem;
     right: 1rem;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
+  }
+
+  .back-button {
+    left: 1rem;
+    top: 1rem;
   }
 }

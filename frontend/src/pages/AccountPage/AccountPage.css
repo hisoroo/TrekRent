@@ -1,0 +1,399 @@
+.account-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.account-container {
+  max-width: 600px;
+  width: 95%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+
+.account-container h1 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes rippleGradient {
+  0% {
+    background-size: 100% 100%;
+    opacity: 1;
+  }
+  50% {
+    background-size: 200% 200%;
+    opacity: 0.95;
+  }
+  100% {
+    background-size: 100% 100%;
+    opacity: 1;
+  }
+}
+
+.account-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  background: radial-gradient(
+    circle at center,
+    #4a90e2 0%,
+    #357abd 50%,
+    #4a90e2 100%
+  );
+  background-size: 100% 100%;
+  background-position: center;
+  border-radius: 8px;
+  min-height: 120px;
+  transition: filter 0.3s ease;
+  animation: rippleGradient 4s ease-in-out infinite;
+  font-family: Helvetica, Arial, sans-serif;
+  width: 100%; 
+  box-sizing: border-box; 
+
+.account-content:hover {
+  filter: brightness(1.1);
+  animation: rippleGradient 4s ease-in-out infinite;
+}
+
+.account-details {
+  width: 100%; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.user-name {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.user-email {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.detail-group:hover {
+  background-color: #f0f0f0;
+}
+
+.detail-group label {
+  font-weight: 600;
+  color: #666;
+  min-width: 120px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-item span {
+  color: #333;
+  font-size: 1rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.account-actions {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px);
+  align-items: center;
+}
+
+.account-actions button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  scale: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.logout-button {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #ff6b6b;
+}
+
+.account-form.readonly input {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.account-form.readonly input:focus {
+  border-color: #ddd;
+  box-shadow: none;
+}
+
+.account-form.readonly input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.account-form.readonly input[readonly]:focus {
+  border-color: #ddd;
+  box-shadow: none;
+}
+
+.account-form.readonly input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  border-color: #ddd;
+  opacity: 1; 
+}
+
+.account-form input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  border-color: #ddd;
+  opacity: 1;
+  color: #333; 
+}
+
+.account-form.editing input:not(:disabled) {
+  background-color: #fff;
+  cursor: text;
+  border: 1px solid #4CAF50;
+}
+
+.account-form.editing input:not(:disabled):focus {
+  border-color: #45a049;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.edit-button, .save-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cancel-button {
+  background-color: #808080;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #ff4757;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.account-form .password-change-section {
+  margin-bottom: 2rem;
+}
+
+.account-form.readonly .password-change-section input {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.account-form.editing .password-change-section input {
+  background-color: #fff;
+  cursor: text;
+  border-color: #4a90e2;
+}
+
+.password-button {
+  background-color: #4a90e2;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-button:hover {
+  background-color: #357abd;
+  transform: translateY(-1px);
+}
+
+.account-actions button {
+  min-width: 150px;
+  padding: 12px 24px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.account-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-toggle {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.actions-dropdown {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-height: 0; 
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  min-width: 250px;
+  z-index: 1;
+}
+
+.account-actions.open .actions-dropdown {
+  max-height: 300px; 
+  opacity: 1;
+  visibility: visible;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.actions-dropdown button {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.account-actions.open .actions-dropdown button {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.actions-dropdown button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.edit-button {
+  transition-delay: 0.1s !important;
+}
+
+.password-button {
+  transition-delay: 0.2s !important;
+}
+
+.delete-button {
+  transition-delay: 0.3s !important;
+}
+
+.edit-button, .password-button, .delete-button {
+  color: #333;
+  margin: 0;
+  border-radius: 0;
+}
+
+.edit-button:hover {
+color: #4a90e2;
+}
+
+.password-button:hover {
+  color: #4a90e2;
+}
+
+.delete-button:hover {
+  color: #ff4757;
+}
+
+@media (max-width: 768px) {
+  .account-actions {
+    width: 100%;
+  }
+
+  .actions-dropdown {
+    position: relative;
+  }
+}
+

@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.equipment import EquipmentCreate, EquipmentRead
+from app.schemas.equipment_type import EquipmentTypeRead
 from typing import List
 from app.services import equipment_service
 
@@ -36,6 +37,16 @@ def get_equipment(
     if not equipment:
         raise HTTPException(status_code=404, detail="Equipment not found")
     return equipment
+
+@router.get("/{equipment_id}/type", response_model=EquipmentTypeRead)
+def get_equipment_type(
+    equipment_id: int,
+    db: Session = Depends(get_db)
+):
+    equipment = db.query(Equipment).filter(Equipment.id == equipment_id).first()
+    if not equipment:
+        raise HTTPException(status_code=404, detail="Equipment not found")
+    return equipment.equipment_type
 
 @router.get("/available", response_model=List[EquipmentRead])
 def get_available_equipment(db: Session = Depends(get_db)):

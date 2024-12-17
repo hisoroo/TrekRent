@@ -3,10 +3,11 @@ import "./MainPage.css";
 import Header from "./components/Header/Header";
 import SearchSection from "./components/SearchSection/SearchSection";
 import EquipmentSection from "./components/EquipmentSection/EquipmentSection";
-import equipmentData from '../../utils/equipmentData.json';
 
 export default function MainPage() {
   const [filteredEquipment, setFilteredEquipment] = useState([]);
+  const [allEquipment, setAllEquipment] = useState([]);
+  const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,7 +20,9 @@ export default function MainPage() {
         return response.json();
       })
       .then((data) => {
+        setAllEquipment(data);
         setFilteredEquipment(data);
+        setEquipmentTypes(data.map(item => item.name));
         setIsLoading(false);
       })
       .catch((error) => {
@@ -30,7 +33,7 @@ export default function MainPage() {
   }, []);
 
   const handleSearch = (searchTerm) => {
-    const filtered = equipmentData.filter((item) =>
+    const filtered = allEquipment.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredEquipment(filtered);
@@ -44,7 +47,7 @@ export default function MainPage() {
         <div>Loading...</div>
       ) : (
         <>
-          <SearchSection onSearch={handleSearch} />
+          <SearchSection onSearch={handleSearch} equipmentTypes={equipmentTypes} />
           <EquipmentSection equipment={filteredEquipment} />
         </>
       )}

@@ -1,83 +1,98 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "./SearchSection.css";
-import equipmentData from '../../../../utils/equipmentData.json';
+import { Autocomplete, TextField, Button, createFilterOptions } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchSection({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const inputRef = useRef(null);
+const filterOptions = createFilterOptions({
+  limit: 5,
+});
 
-  const handleSearch = () => {
-    onSearch(searchTerm);
-  };
+export default function SearchSection({ onSearch, equipmentTypes }) {
+  const [inputValue, setInputValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (value) {
-      const filteredSuggestions = equipmentData.filter((item) =>
-        item.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
-    } else {
-      setSuggestions([]);
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && inputValue) {
+      onSearch(inputValue);
+      setIsOpen(false);
     }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setSearchTerm(suggestion.name);
-    setSuggestions([]);
-    onSearch(suggestion.name);
-  };
-
-  const handleClearInput = () => {
-    setSearchTerm("");
-    setSuggestions([]);
-    inputRef.current.focus();
-    onSearch("");
   };
 
   return (
     <section className="search-section">
       <div className="input-container">
-        <input
-          type="text"
-          placeholder="Wyszukaj sprzęt"
-          className="search-input"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          ref={inputRef}
+        <Autocomplete
+          inputValue={inputValue}
+          onInputChange={(event, newValue) => {
+            setInputValue(newValue);
+            setIsOpen(newValue.length > 0);
+            if (newValue === '') {
+              onSearch('');
+            }
+          }}
+          onChange={(event, newValue) => {
+            if (newValue) {
+              setInputValue(newValue);
+              onSearch(newValue);
+            }
+          }}
+          open={isOpen}
+          onOpen={() => setIsOpen(true)}
+          onClose={() => setIsOpen(false)}
+          onKeyDown={handleKeyPress}
+          options={equipmentTypes}
+          filterOptions={filterOptions}
+          selectOnFocus
+          handleHomeEndKeys
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Wyszukaj sprzęt"
+              variant="outlined"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '12px',
+                  height: '45px',
+                  '& fieldset': {
+                    borderColor: '#ccc',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#007bff',
+                  },
+                },
+              }}
+            />
+          )}
+          freeSolo
+          fullWidth
+          listbox={{
+            style: { maxHeight: '200px' }
+          }}
+          sx={{
+            '& .MuiAutocomplete-inputRoot': {
+              '& .MuiAutocomplete-input': {
+                padding: '4px 8px !important',
+              },
+            },
+          }}
         />
-        {searchTerm && (
-          <button className="clear-button" onClick={handleClearInput}>
-            ×
-          </button>
-        )}
       </div>
-      <button className="search-button" onClick={handleSearch}>
+      <Button
+        variant="contained"
+        className="search-button"
+        onClick={() => {
+          onSearch(inputValue);
+          setIsOpen(false);
+        }}
+        startIcon={<SearchIcon />}
+        sx={{
+          borderRadius: '12px',
+          height: '45px',
+        }}
+      >
         Wyszukaj
-      </button>
-      {suggestions.length > 0 && (
-        <ul className="suggestions-list">
-          {suggestions.map((suggestion) => (
-            <li
-              key={suggestion.id}
-              className="suggestion-item"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion.name}
-            </li>
-          ))}
-        </ul>
-      )}
+      </Button>
     </section>
   );
 }

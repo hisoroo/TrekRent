@@ -4,74 +4,9 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  position: relative; 
+  gap: 20px;
 }
 
 .input-container {
-  position: relative;
   width: 60%;
-}
-
-.search-input {
-  font-size: larger;
-  width: 100%;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.clear-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: red;
-}
-
-.search-button {
-  padding: 10px 20px;
-  background: linear-gradient(45deg, #007bff, #0056b3);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  margin-left: 30px;
-  cursor: pointer;
-  font-size: larger;
-  transition: all 0.3s ease;
-}
-
-.search-button:hover {
-  background: linear-gradient(45deg, #0056b3, #004494);
-  transition: all 0.3s ease;
-}
-
-.suggestions-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 150px;
-  overflow-y: auto;
-  position: absolute;
-  background-color: white;
-  width: 55%; 
-  top: calc(80% + 5px);
-  left: 17%;
-  z-index: 1000;
-}
-
-.suggestion-item {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.suggestion-item:hover {
-  background-color: #f0f0f0;
 }

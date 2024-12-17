@@ -64,7 +64,8 @@
   animation: rippleGradient 4s ease-in-out infinite;
   font-family: Helvetica, Arial, sans-serif;
   width: 100%; 
-  box-sizing: border-box; 
+    box-sizing: border-box; 
+  }
 
 .account-content:hover {
   filter: brightness(1.1);
@@ -396,4 +397,3 @@ color: #4a90e2;
     position: relative;
   }
 }
-

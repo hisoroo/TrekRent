@@ -143,15 +143,6 @@ input:-webkit-autofill {
   padding-left: 0;
 }
 
-.address-separator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #8b8b8b5a;
-}
-
 .address-grid {
   display: flex;
   flex-direction: column;

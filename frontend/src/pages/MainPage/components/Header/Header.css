@@ -10,6 +10,7 @@
     background-color: white;
     top: 0;
     z-index: 1000;
+    position: relative;
   }
   
   .header img {
@@ -27,6 +28,9 @@
     text-align: center;
     text-decoration: none;
     color:black;
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%); 
   }
   
   .cart-button, .home-button {
@@ -34,6 +38,10 @@
     border: none;
     cursor: pointer;
     text-decoration: none;
+  }
+
+  .home-button {
+    z-index: 1;
   }
 
   .cart-button {
@@ -83,6 +91,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  z-index: 1;
 }
 
 .account-menu {

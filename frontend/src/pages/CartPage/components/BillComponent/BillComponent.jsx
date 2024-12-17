@@ -47,7 +47,7 @@ const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId
 
   const handleReserve = async () => {
     setIsLoading(true);
-    setError(null); // Reset błędu przed rozpoczęciem
+    setError(null);
     
     try {
       const userDataString = localStorage.getItem('user');
@@ -80,7 +80,6 @@ const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId
         throw new Error(errorData.detail || 'Błąd podczas rezerwacji');
       }
 
-      // Wyczyść konkretny przedmiot z koszyka używając timestamp
       const cart = JSON.parse(localStorage.getItem('cart'));
       if (cart && cart.items) {
         const updatedItems = cart.items.filter(item => item.timestamp !== timestamp);

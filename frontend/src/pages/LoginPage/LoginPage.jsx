@@ -36,16 +36,15 @@ const LoginPage = () => {
         body: urlEncodedData,
       });
 
-      // Najpierw próbujemy pobrać dane JSON
       const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        // Jeśli mamy dane z błędu, używamy ich
+
         if (data && data.detail) {
           toast.error(data.detail);
         } else if (response.status === 401) {
           toast.error('Nieprawidłowy email lub hasło');
-          navigate('/login'); // Przekierowanie do strony logowania
+          navigate('/login'); 
         } else {
           toast.error('Wystąpił błąd podczas logowania');
         }
@@ -63,7 +62,6 @@ const LoginPage = () => {
         role: data.user_group
       }));
       
-      // Emitujemy event o zalogowaniu
       window.dispatchEvent(new Event('userLoggedIn'));
       
       toast.success('Zalogowano pomyślnie!', {

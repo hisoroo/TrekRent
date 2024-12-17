@@ -24,7 +24,6 @@ export default function ProductPage() {
         const response = await fetch(`http://localhost:8000/api/equipment-types/${id}`);
         if (response.ok) {
           const data = await response.json();
-          console.log('Fetched product data:', data); // Debug log
           setEquipmentType(data);
         }
       } catch (error) {

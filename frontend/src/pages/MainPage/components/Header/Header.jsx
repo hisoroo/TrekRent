@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import "./Header.css";
-import { FaSignInAlt, FaUserPlus, FaChartLine, FaSignOutAlt, FaTools, FaMagic } from "react-icons/fa";
+import { FaSignInAlt, FaUserPlus, FaChartLine, FaSignOutAlt, FaTools, FaMagic, FaUserCircle } from "react-icons/fa";
 
 export default function Header() {
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -50,7 +50,6 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    // Tutaj można dodać sprawdzanie stanu logowania z localStorage lub API
     const checkLoginStatus = () => {
       const userData = localStorage.getItem("user");
       if (userData) {
@@ -128,6 +127,9 @@ export default function Header() {
             <div className="menu-dropdown">
               {isLoggedIn ? (
                 <>
+                  <Link to="/account" className="menu-item">
+                    <FaUserCircle className="menu-icon" style={{ marginRight: '8px' }} /> Moje konto
+                  </Link>
                   {userRole === "user" && (
                     <>
                       <Link to="/manage-equipment" className="menu-item">

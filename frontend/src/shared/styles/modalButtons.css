@@ -1,0 +1,56 @@
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.modal-buttons button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.modal-buttons .save-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+}
+
+.modal-buttons .save-button:hover:not(:disabled) {
+  background-color: #357abd;
+  transform: translateY(-1px);
+}
+
+.modal-buttons .save-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+}
+
+.modal-buttons .cancel-button {
+  background-color: #808080;
+  color: white;
+  border: none;
+}
+
+.modal-buttons .cancel-button:hover {
+  background-color: #666;
+  transform: translateY(-1px);
+}
+
+.modal-buttons .save-button.delete-button {
+  background-color: #ff4757;
+}
+
+.modal-buttons .save-button.delete-button:hover:not(:disabled) {
+  background-color: #ff2c3c;
+}

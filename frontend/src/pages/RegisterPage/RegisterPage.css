@@ -252,10 +252,6 @@ input:-webkit-autofill {
   }
 }
 
-/* .password-input-wrapper {
-  display: none;
-} */
-
 .toggle-password {
   position: absolute;
   right: 1rem;

@@ -93,7 +93,7 @@ const OrdersSection = ({ activeOrders, pastOrders }) => {
             {pastOrders?.length > 0 ? (
               pastOrders.map(order => renderOrder(order, false))
             ) : (
-              <p className="no-orders">Brak historycznych zamówień</p>
+              <p className="no-orders">Brak zakończonych zamówień</p>
             )}
           </div>
         </div>

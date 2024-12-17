@@ -44,7 +44,7 @@ export default function MainPage() {
       <Header />
       {error && <div className="error-message">{error}</div>}
       {isLoading ? (
-        <div>Loading...</div>
+        <div></div>
       ) : (
         <>
           <SearchSection onSearch={handleSearch} equipmentTypes={equipmentTypes} />

@@ -110,7 +110,7 @@ const LoginPage = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Wprowadź hasło"
+                placeholder=''
                 value={formData.password}
                 onChange={handleChange}
                 required

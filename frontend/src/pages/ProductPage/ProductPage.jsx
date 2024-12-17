@@ -108,7 +108,7 @@ export default function ProductPage() {
             />
           </>
         ) : (
-          <p>Ładowanie...</p>
+          <p></p>
         )}
       </div>
     </>

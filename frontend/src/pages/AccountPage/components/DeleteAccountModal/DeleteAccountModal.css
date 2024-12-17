@@ -106,7 +106,7 @@
 }
 
 .modal-buttons .save-button:hover:not(:disabled) {
-  background-color: #ff2c3c;
+  background-color: #2b7ad4;
   transform: translateY(-1px);
 }
 

@@ -103,7 +103,6 @@ const AddressSection = ({ formData, handleChange, handlePostalCodeChange, isDisa
             <span className="validation-message">Wprowadź nazwę państwa</span>
           </div>
         </div>
-        <div className="address-separator"></div>
       </div>
     </div>
   );

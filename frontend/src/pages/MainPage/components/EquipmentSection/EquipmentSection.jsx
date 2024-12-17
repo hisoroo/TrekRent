@@ -17,7 +17,7 @@ export default function EquipmentSection({ equipment }) {
             />
           ))
         ) : (
-          <div>Ładowanie sprzętu...</div>
+          <div className="no-equipment">Nie mamy takiego sprzętu, zmień filtry i spróbuj ponownie.</div>
         )}
       </div>
     </section>

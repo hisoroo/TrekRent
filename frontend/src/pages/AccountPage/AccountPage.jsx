@@ -7,8 +7,9 @@ import PasswordModal from './components/PasswordModal/PasswordModal';
 import DeleteAccountModal from './components/DeleteAccountModal/DeleteAccountModal';
 import OrdersSection from './components/OrdersSection/OrdersSection';
 import './AccountPage.css';
-import { handleTokenExpiration } from '../../utils/handleTokenExpiration';
-import { checkTokenExpiration } from '../../utils/tokenInterceptor';
+// import { handleTokenExpiration } from '../../utils/handleTokenExpiration';
+// import { checkTokenExpiration } from '../../utils/tokenInterceptor';
+import { isAuthenticated, getToken } from '../../utils/auth';
 
 export default function AccountPage() {
   const navigate = useNavigate();
@@ -20,39 +21,35 @@ export default function AccountPage() {
   const [activeOrders, setActiveOrders] = useState([]);
   const [pastOrders, setPastOrders] = useState([]);
 
-  const fetchUserData = useCallback(async () => {
-    if (checkTokenExpiration()) {
-      navigate('/login', { 
-        state: { message: 'Twoja sesja wygasła. Zaloguj się ponownie.' }
-      });
-      return;
-    }
-    
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-
+  const fetchUserData = async () => {
     try {
+      if (!isAuthenticated()) {
+        navigate('/login');
+        return;
+      }
+
+      const token = getToken();
       const response = await fetch('http://localhost:8000/api/users/me', {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${token}`
         }
       });
 
-      if (!response.ok) {
-        handleTokenExpiration(response, navigate);
-        throw new Error('Network response was not ok');
+      if (response.ok) {
+        const data = await response.json();
+        setUserData(data);
+      } else if (response.status === 401) {
+        navigate('/login');
       }
-
-      const data = await response.json();
-      setUserData(data);
     } catch (error) {
-      console.error('Error:', error);
-      handleTokenExpiration(error, navigate);
+      console.error('Error fetching user data:', error);
+    } finally {
+      console.log('User data:', userData);
     }
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, [navigate]);
 
   const fetchOrders = useCallback(async () => {
@@ -81,9 +78,8 @@ export default function AccountPage() {
   }, []);
 
   useEffect(() => {
-    fetchUserData();
     fetchOrders();
-  }, [fetchUserData, fetchOrders]);
+  }, [fetchOrders]);
 
   const handleEditSubmit = async (updatedData) => {
     const token = localStorage.getItem('token');

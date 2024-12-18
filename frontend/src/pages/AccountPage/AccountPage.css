@@ -243,8 +243,8 @@
 }
 
 .delete-button {
-  background-color: #ff4757;
-  color: white;
+  background: none !important;
+  color: #333 !important; /* Dodane !important dla pewności */
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -252,6 +252,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.delete-button:hover {
+  background-color: rgba(255, 71, 87, 0.1) !important;
+  color: #ff4757 !important;
 }
 
 .account-form .password-change-section {

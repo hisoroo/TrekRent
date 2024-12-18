@@ -67,3 +67,14 @@ def initialize_equipment_for_type(
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.patch("/{equipment_id}/availability", response_model=EquipmentRead)
+def update_equipment_availability(
+    equipment_id: int,
+    is_available: bool,
+    db: Session = Depends(get_db)
+):
+    equipment = equipment_service.update_equipment_availability(db, equipment_id, is_available)
+    if not equipment:
+        raise HTTPException(status_code=404, detail="Equipment not found")
+    return equipment

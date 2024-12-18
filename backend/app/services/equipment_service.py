@@ -83,3 +83,17 @@ def create_initial_equipment_for_type(db: Session, equipment_type_id: int, count
     stock_level_service.recalculate_stock_level(db, equipment_type_id)
     
     return equipment_list
+
+def update_equipment_availability(db: Session, equipment_id: int, is_available: bool) -> Equipment:
+    equipment = get_equipment_by_id(db, equipment_id)
+    if equipment:
+        old_availability = equipment.is_available
+        equipment.is_available = is_available
+        db.commit()
+        db.refresh(equipment)
+        
+        # Aktualizacja stock_level tylko jeśli zmienił się stan dostępności
+        if old_availability != is_available:
+            stock_level_service.recalculate_stock_level(db, equipment.equipment_type_id)
+            
+    return equipment

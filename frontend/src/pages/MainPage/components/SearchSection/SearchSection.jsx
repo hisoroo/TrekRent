@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./SearchSection.css";
 import { Autocomplete, TextField, Button, createFilterOptions } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import PropTypes from 'prop-types';
 
 const filterOptions = createFilterOptions({
   limit: 5,
 });
 
-export default function SearchSection({ onSearch, equipmentTypes }) {
-  const [inputValue, setInputValue] = useState("");
+const SearchSection = ({ onSearch, equipmentTypes = [], minimal = false, searchValue = "" }) => {
+  const [inputValue, setInputValue] = useState(searchValue);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setInputValue(searchValue);
+  }, [searchValue]);
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter' && inputValue) {
@@ -20,9 +25,10 @@ export default function SearchSection({ onSearch, equipmentTypes }) {
   };
 
   return (
-    <section className="search-section">
+    <section className={`search-section ${minimal ? 'minimal' : ''}`}>
       <div className="input-container">
         <Autocomplete
+          value={inputValue}
           inputValue={inputValue}
           onInputChange={(event, newValue) => {
             setInputValue(newValue);
@@ -95,4 +101,19 @@ export default function SearchSection({ onSearch, equipmentTypes }) {
       </Button>
     </section>
   );
-}
+};
+
+SearchSection.propTypes = {
+  onSearch: PropTypes.func,
+  equipmentTypes: PropTypes.arrayOf(PropTypes.string),
+  minimal: PropTypes.bool,
+  searchValue: PropTypes.string
+};
+
+SearchSection.defaultProps = {
+  equipmentTypes: [],
+  onSearch: () => {},
+  minimal: false
+};
+
+export default SearchSection;

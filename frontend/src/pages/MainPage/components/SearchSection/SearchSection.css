@@ -10,3 +10,13 @@
 .input-container {
   width: 60%;
 }
+
+.search-section.minimal {
+    padding: 10px;
+    background: none;
+    box-shadow: none;
+}
+
+.search-section.minimal .search-inputs {
+    margin: 0;
+}

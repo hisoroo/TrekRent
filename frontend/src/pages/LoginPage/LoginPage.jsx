@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './LoginPage.css';
 import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +13,17 @@ const LoginPage = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const sessionExpiredMessage = location.state?.message;
+
+  useEffect(() => {
+    if (sessionExpiredMessage) {
+      toast.warning(sessionExpiredMessage, {
+        position: "top-center",
+        autoClose: 3000
+      });
+    }
+  }, [sessionExpiredMessage]);
 
   const handleChange = (e) => {
     setFormData({

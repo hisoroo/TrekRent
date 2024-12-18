@@ -7,6 +7,8 @@ import PasswordModal from './components/PasswordModal/PasswordModal';
 import DeleteAccountModal from './components/DeleteAccountModal/DeleteAccountModal';
 import OrdersSection from './components/OrdersSection/OrdersSection';
 import './AccountPage.css';
+import { handleTokenExpiration } from '../../utils/handleTokenExpiration';
+import { checkTokenExpiration } from '../../utils/tokenInterceptor';
 
 export default function AccountPage() {
   const navigate = useNavigate();
@@ -19,6 +21,13 @@ export default function AccountPage() {
   const [pastOrders, setPastOrders] = useState([]);
 
   const fetchUserData = useCallback(async () => {
+    if (checkTokenExpiration()) {
+      navigate('/login', { 
+        state: { message: 'Twoja sesja wygasła. Zaloguj się ponownie.' }
+      });
+      return;
+    }
+    
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
@@ -33,15 +42,16 @@ export default function AccountPage() {
         }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setUserData(data);
-      } else {
-        const error = await response.json();
-        console.error('Error:', error);
+      if (!response.ok) {
+        handleTokenExpiration(response, navigate);
+        throw new Error('Network response was not ok');
       }
+
+      const data = await response.json();
+      setUserData(data);
     } catch (error) {
       console.error('Error:', error);
+      handleTokenExpiration(error, navigate);
     }
   }, [navigate]);
 

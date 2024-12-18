@@ -39,8 +39,13 @@ def delete_stock_level(db: Session, eq_type_id: int) -> bool:
         return True
     return False
 
-def get_all_stock_levels(db: Session, skip: int = 0, limit: int = 20) -> list[StockLevel]:
-    return db.query(StockLevel).offset(skip).limit(limit).all()
+def get_all_stock_levels(db: Session, skip: int = 0, limit: int = None) -> list[StockLevel]:
+    query = db.query(StockLevel)
+    if skip:
+        query = query.offset(skip)
+    if limit:
+        query = query.limit(limit)
+    return query.all()
 
 def get_available_stock_levels(db: Session, skip: int = 0, limit: int = 20) -> list[StockLevel]:
     return db.query(StockLevel)\

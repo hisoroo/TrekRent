@@ -10,14 +10,14 @@ router = APIRouter(prefix="/stock-levels", tags=["stock-levels"])
 @router.get("/", response_model=List[StockLevelRead])
 def get_all_stock_levels(
     skip: int = Query(0, ge=0, description="Liczba rekordów do pominięcia"),
-    limit: int = Query(20, ge=1, le=100, description="Maksymalna liczba zwracanych rekordów"),
+    limit: int = Query(None, description="Maksymalna liczba zwracanych rekordów"),
     only_available: bool = Query(False, description="Pokaż tylko dostępne sprzęty"),
     db: Session = Depends(get_db)
 ):
     """
     Pobierz listę stanów magazynowych z możliwością filtrowania i paginacji.
     - **skip**: Pomija określoną liczbę rekordów
-    - **limit**: Maksymalna liczba zwracanych rekordów
+    - **limit**: Maksymalna liczba zwracanych rekordów (opcjonalne)
     - **only_available**: Jeśli True, zwraca tylko typy sprzętu z dostępnymi sztukami
     """
     if only_available:

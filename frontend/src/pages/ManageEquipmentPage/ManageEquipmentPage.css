@@ -183,6 +183,162 @@ button.delete-button:hover {
   padding: 0.5rem;
 }
 
+/* Style dla tabeli stanów magazynowych */
+.stock-levels-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.stock-levels-table table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stock-levels-table th {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.stock-levels-table td {
+  padding: 1rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.stock-levels-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+
+.stock-levels-table button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.stock-levels-table button:hover {
+  background-color: #0056b3;
+}
+
+.stock-levels-table button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.stock-levels-table span {
+  min-width: 80px;
+  display: inline-block;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Style dla kontrolek stanu magazynowego */
+.stock-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+}
+
+.stock-control button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.stock-control button.decrease {
+  background-color: #dc3545;
+}
+
+.stock-control button.increase {
+  background-color: #28a745;
+}
+
+.stock-control button:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.stock-control button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.stock-control span {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.stock-control span.updating {
+  opacity: 0.5;
+}
+
+.spinner-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.spinner-buttons button {
+  width: 24px;
+  height: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #666;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.spinner-buttons button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.spinner-buttons button:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
+.spinner-buttons button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
 /* Responsywność */
 @media (max-width: 768px) {
   .manage-container {

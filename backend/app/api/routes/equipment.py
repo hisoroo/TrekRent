@@ -14,11 +14,7 @@ def create_equipment(
     equipment: EquipmentCreate,
     db: Session = Depends(get_db)
 ):
-    new_equipment = Equipment(**equipment.dict())
-    db.add(new_equipment)
-    db.commit()
-    db.refresh(new_equipment)
-    return new_equipment
+    return equipment_service.create_equipment(db, equipment)
 
 @router.get("/", response_model=List[EquipmentRead])
 def get_all_equipment(
@@ -52,6 +48,16 @@ def get_equipment_type(
 def get_available_equipment(db: Session = Depends(get_db)):
     return db.query(Equipment).filter(Equipment.is_available == True).all()
 
+@router.get("/available/{equipment_type_id}", response_model=EquipmentRead)
+def get_available_equipment_by_type(
+    equipment_type_id: int,
+    db: Session = Depends(get_db)
+):
+    equipment = equipment_service.find_available_equipment_of_type(db, equipment_type_id)
+    if not equipment:
+        raise HTTPException(status_code=404, detail="No available equipment found")
+    return equipment
+
 @router.post("/initialize/{equipment_type_id}")
 def initialize_equipment_for_type(
     equipment_type_id: int,
@@ -78,3 +84,10 @@ def update_equipment_availability(
     if not equipment:
         raise HTTPException(status_code=404, detail="Equipment not found")
     return equipment
+
+@router.delete("/{equipment_id}", response_model=dict)
+def delete_equipment(equipment_id: int, db: Session = Depends(get_db)):
+    result = equipment_service.delete_equipment(db, equipment_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Equipment not found")
+    return {"status": "success", "message": "Equipment deleted"}

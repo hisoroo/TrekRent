@@ -10,7 +10,7 @@ def get_equipment_type(db: Session, type_id: int) -> EquipmentType:
 def get_all_equipment_types(db: Session) -> list[EquipmentType]:
     try:
         logging.info("Executing database query for all equipment types")
-        types = db.query(EquipmentType).all()
+        types = db.query(EquipmentType).order_by(EquipmentType.id).all()
         logging.info(f"Retrieved {len(types)} equipment types from database")
         for type_obj in types:
             logging.info(f"Type found: ID={type_obj.id}, Name={type_obj.name}")

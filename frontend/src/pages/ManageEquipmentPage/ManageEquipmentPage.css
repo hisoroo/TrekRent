@@ -1,0 +1,330 @@
+.manage-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.manage-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.manage-container h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Style zakładek */
+.tabs {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  gap: 1rem;
+}
+
+.tab {
+  padding: 1rem 2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #666;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: #007bff;
+}
+
+.tab.active {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #007bff;
+}
+
+/* Style tabel */
+.equipment-table, .types-section, .stock-levels-table {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Style formularzy */
+.add-equipment-form, .add-type-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+input, select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 200px;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style przycisków */
+button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.add-equipment-form button,
+.add-type-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.add-equipment-form button:hover,
+.add-type-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Przyciski akcji w tabelach */
+.equipment-table button,
+.types-section button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  font-size: 0.9rem;
+}
+
+button.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+button.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Przyciski statusu w tabeli sprzętu */
+.status-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: auto;
+  white-space: nowrap;
+}
+
+.status-button.available {
+  background-color: #dc3545;
+  color: white;
+}
+
+.status-button.available:hover {
+  background-color: #c82333;
+}
+
+.status-button.unavailable {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-button.unavailable:hover {
+  background-color: #218838;
+}
+
+/* Style dla inputów w tabeli stanów magazynowych */
+.stock-levels-table input {
+  width: 100px;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .manage-container {
+    padding: 1rem;
+  }
+
+  .add-equipment-form,
+  .add-type-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 0.75rem 1rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Stany i animacje */
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.equipment-table tr:hover,
+.types-section tr:hover {
+  background-color: #f8f9fa;
+}
+
+input::placeholder,
+select::placeholder {
+  color: #999;
+}
+
+/* Style dla statusu */
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-badge.available {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.unavailable {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Style dla przełącznika */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #28a745;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #28a745;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Stan ładowania dla przełącznika */
+.slider.updating {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.switch input:disabled + .slider {
+  cursor: wait;
+}
+
+.switch input:disabled + .slider:before {
+  background-color: #e0e0e0;
+}
+
+/* Hover efekt dla wierszy tabeli */
+.equipment-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Wyrównanie kolumn tabeli */
+.equipment-table td {
+  vertical-align: middle;
+}
+
+.equipment-table th:last-child,
+.equipment-table td:last-child {
+  text-align: center;
+  width: 120px;
+}

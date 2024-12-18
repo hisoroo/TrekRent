@@ -52,6 +52,7 @@
   box-sizing: border-box;
   line-height: 3.5rem;
   text-align: left;
+  min-width: none !important;
 }
 
 .form-group input:focus {
@@ -164,8 +165,6 @@ input:-webkit-autofill {
 .location-group {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 1rem;
-  width: 100%;
 }
 
 .location-group .form-group:first-child {
@@ -210,8 +209,23 @@ input:-webkit-autofill {
 }
 
 .address-grid .validation-message {
-  bottom: -20px;
-  white-space: nowrap;
+  bottom: -30px;
+}
+
+.address-grid .validation-message-apartment {
+  position: absolute;
+  bottom: -5px;
+  left: 5px;
+  font-size: 0.75rem;
+  color: #ff4444;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease all;
+}
+
+.form-group input:invalid:not(:placeholder-shown) ~ .validation-message-apartment {
+  opacity: 1;
+  visibility: visible;
 }
 
 .location-group {

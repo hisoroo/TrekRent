@@ -10,6 +10,7 @@ export default function MainPage() {
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchInputValue, setSearchInputValue] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/api/equipment-types/")
@@ -33,6 +34,7 @@ export default function MainPage() {
   }, []);
 
   const handleSearch = (searchTerm) => {
+    setSearchInputValue(searchTerm);
     const filtered = allEquipment.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -41,13 +43,21 @@ export default function MainPage() {
 
   return (
     <div className="main-page">
-      <Header />
+      <Header 
+        onSearch={handleSearch} 
+        searchValue={searchInputValue} 
+        equipmentTypes={equipmentTypes}
+      />
       {error && <div className="error-message">{error}</div>}
       {isLoading ? (
         <div></div>
       ) : (
         <>
-          <SearchSection onSearch={handleSearch} equipmentTypes={equipmentTypes} />
+          <SearchSection 
+            onSearch={handleSearch} 
+            searchValue={searchInputValue}
+            equipmentTypes={equipmentTypes} 
+          />
           <EquipmentSection equipment={filteredEquipment} />
         </>
       )}

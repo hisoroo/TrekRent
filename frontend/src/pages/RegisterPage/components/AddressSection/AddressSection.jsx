@@ -49,7 +49,7 @@ const AddressSection = ({ formData, handleChange, handlePostalCodeChange, isDisa
                 pattern="[0-9A-Za-z]{1,5}"
               />
               <label>Nr mieszkania</label>
-              <span className="validation-message">
+              <span className="validation-message-apartment">
                 Wprowadź poprawny numer mieszkania
               </span>
             </div>

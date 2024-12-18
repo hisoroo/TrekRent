@@ -8,7 +8,7 @@ def get_equipment_by_id(db: Session, equipment_id: int) -> Equipment:
     return db.query(Equipment).filter(Equipment.id == equipment_id).first()
 
 def get_all_equipment(db: Session) -> list[Equipment]:
-    return db.query(Equipment).all()
+    return db.query(Equipment).order_by(Equipment.equipment_type_id.asc()).all()
 
 def create_equipment(db: Session, eq_data: EquipmentCreate) -> Equipment:
     eq = Equipment(**eq_data.dict())
@@ -65,24 +65,6 @@ def mark_equipment_as_unavailable(db: Session, equipment_id: int) -> bool:
         db.commit()
         return True
     return False
-
-def create_initial_equipment_for_type(db: Session, equipment_type_id: int, count: int = 5) -> list[Equipment]:
-    equipment_list = []
-    for _ in range(count):
-        eq = Equipment(
-            equipment_type_id=equipment_type_id,
-            is_available=True
-        )
-        db.add(eq)
-        equipment_list.append(eq)
-    
-    db.commit()
-    for eq in equipment_list:
-        db.refresh(eq)
-    
-    stock_level_service.recalculate_stock_level(db, equipment_type_id)
-    
-    return equipment_list
 
 def update_equipment_availability(db: Session, equipment_id: int, is_available: bool) -> Equipment:
     equipment = get_equipment_by_id(db, equipment_id)

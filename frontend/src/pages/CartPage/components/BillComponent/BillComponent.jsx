@@ -5,7 +5,6 @@ import "./BillComponent.css";
 
 const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId, timestamp, onReservationComplete }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const formatDate = (date) => {
     if (!date) return "Brak daty";
@@ -47,7 +46,6 @@ const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId
 
   const handleReserve = async () => {
     setIsLoading(true);
-    setError(null);
     
     try {
       const userDataString = localStorage.getItem('user');
@@ -98,7 +96,6 @@ const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId
       });
       
     } catch (err) {
-      setError(err.message);
       toast.error(err.message);
     } finally {
       setIsLoading(false);
@@ -139,8 +136,6 @@ const BillComponent = ({ startDate, endDate, productName, totalCost, equipmentId
             <span className="bill-total">{displayCost(totalCost)} zł</span>
           </div>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
         <button 
           className="bill-button" 
           onClick={handleReserve}

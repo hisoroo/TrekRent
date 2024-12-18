@@ -7,6 +7,7 @@ export default function EquipmentList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
+  const [changingStatus, setChangingStatus] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -61,8 +62,16 @@ export default function EquipmentList() {
 
   const handleAvailabilityChange = async (item) => {
     setUpdatingId(item.id);
-    await handleToggleAvailability(item);
-    setUpdatingId(null);
+    setChangingStatus(item.id);
+    
+    // Natychmiast rozpoczynamy zmianę stanu
+    handleToggleAvailability(item);
+    
+    // Krótsze opóźnienie przed resetem animacji
+    setTimeout(() => {
+      setChangingStatus(null);
+      setUpdatingId(null);
+    }, 150);
   };
 
   if (loading) return <div>Ładowanie...</div>;
@@ -80,12 +89,17 @@ export default function EquipmentList() {
           </tr>
         </thead>
         <tbody>
-          {equipment.map((item) => (
+          {equipment
+            .sort((a, b) => a.equipment_type_id - b.equipment_type_id)
+            .map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{getTypeName(item.equipment_type_id)}</td>
               <td>
-                <span className={`status-badge ${item.is_available ? 'available' : 'unavailable'}`}>
+                <span className={`status-badge 
+                  ${item.is_available ? 'available' : 'unavailable'}
+                  ${changingStatus === item.id ? 'changing' : ''}
+                  ${updatingId === item.id ? 'changed' : ''}`}>
                   {item.is_available ? 'Dostępny' : 'Niedostępny'}
                 </span>
               </td>

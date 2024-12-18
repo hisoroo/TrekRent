@@ -1,15 +1,76 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import "./Header.css";
-import { FaSignInAlt, FaUserPlus, FaChartLine, FaSignOutAlt, FaTools, FaMagic, FaUserCircle } from "react-icons/fa";
+import { 
+  FaSignInAlt, 
+  FaUserPlus, 
+  FaChartLine, 
+  FaSignOutAlt, 
+  FaTools,
+  FaUserCircle, 
+  FaMountain, 
+  FaHiking, 
+  FaCampground, 
+  FaCompass, 
+  FaMap, 
+  FaSnowboarding,
+  FaBiking,
+  FaWater,
+  FaUmbrellaBeach,
+  FaSkiing,
+} from "react-icons/fa";
+import { BiUser, BiCartAlt } from "react-icons/bi";
+import SearchSection from '../SearchSection/SearchSection';
+import PropTypes from 'prop-types';
 
-export default function Header() {
+export default function Header({ onSearch, searchValue, equipmentTypes }) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
+  const [currentIconIndex, setCurrentIconIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showSearchInHeader, setShowSearchInHeader] = useState(false);
+
+  const icons = [
+    FaMountain,
+    FaHiking,
+    FaCampground,
+    FaCompass,
+    FaMap,
+    FaSnowboarding,
+    FaBiking,
+    FaWater,
+    FaUmbrellaBeach,
+    FaSkiing,
+  ];
+
+  useEffect(() => {
+    setIsAnimating(true);
+    let currentIndex = currentIconIndex;
+    
+    const animationInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % icons.length;
+      setCurrentIconIndex(currentIndex);
+    }, 100);
+
+    const timeout = setTimeout(() => {
+      clearInterval(animationInterval);
+      setCurrentIconIndex(Math.floor(Math.random() * icons.length));
+      setIsAnimating(false);
+    }, 500);
+
+    return () => {
+      clearInterval(animationInterval);
+      clearTimeout(timeout);
+    };
+  }, [location.pathname]); // Trigger animation on route change
+
+  const CurrentIcon = icons[currentIconIndex];
 
   useEffect(() => {
     const updateCartCount = () => {
@@ -70,6 +131,33 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Dodaj nowy useEffect do śledzenia pozycji SearchSection
+  useEffect(() => {
+    const handleScroll = () => {
+      const searchSection = document.querySelector('.search-section:not(.minimal)');
+      if (searchSection) {
+        const rect = searchSection.getBoundingClientRect();
+        setShowSearchInHeader(rect.top < -100 && rect.bottom < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -79,39 +167,26 @@ export default function Header() {
     navigate('/');
   };
 
-  const handleInitializeEquipment = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/equipment-types/');
-      const equipmentTypes = await response.json();
-
-      const count = 5;
-      for (const type of equipmentTypes) {
-        await fetch(`http://localhost:8000/api/equipment/initialize/${type.id}?count=${count}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-        });
-      }
-      alert('Pomyślnie zainicjalizowano sprzęt dla wszystkich typów!');
-    } catch (error) {
-      console.error('Błąd podczas inicjalizacji sprzętu:', error);
-      alert('Wystąpił błąd podczas inicjalizacji sprzętu');
-    }
-  };
-
   return (
-    <nav className="header">
-      <Link to="/" className="home-button">
-        <img src="/bike-svgrepo-com.svg" alt="logo" />
+    <nav className={`header ${isScrolled ? 'header-scrolled' : ''}`}>
+      <Link to="/" className="logo-container">
+        <CurrentIcon className={`logo-icon ${isAnimating ? 'animating' : ''}`} />
+        <span>TrekRent</span>
       </Link>
-      <Link to="/" className="header-title">
-        TrekRent
-      </Link>
+      
+      {/* Dodaj SearchBar w headerze */}
+      <div className={`header-search ${showSearchInHeader ? 'visible' : ''}`}>
+        <SearchSection 
+          minimal={true} 
+          equipmentTypes={equipmentTypes}
+          onSearch={onSearch}
+          searchValue={searchValue}
+        />
+      </div>
+
       <div className="right-section">
         <Link to="/cart" className="cart-button">
-          <img src="/cart-shopping-svgrepo-com.svg" alt="cart" />
+          <BiCartAlt className="nav-icon" />
           {cartItemsCount > 0 && (
             <span className="cart-counter">{cartItemsCount}</span>
           )}
@@ -121,7 +196,7 @@ export default function Header() {
             className="account-button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <img src="/user-alt-1-svgrepo-com.svg" alt="account" />
+            <BiUser className="nav-icon" />
           </button>
           {isMenuOpen && (
             <div className="menu-dropdown">
@@ -138,9 +213,6 @@ export default function Header() {
                       <Link to="/trends" className="menu-item">
                         <FaChartLine className="menu-icon" style={{ marginRight: '8px' }} /> Analiza trendów
                       </Link>
-                      <button onClick={handleInitializeEquipment} className="menu-item" style={{color: '#ff6b6b'}}>
-                        <FaMagic className="menu-icon" style={{ marginRight: '8px' }} /> Inicjalizuj sprzęt (TEST)
-                      </button>
                     </>
                   )}
                   <button onClick={handleLogout} className="menu-item">
@@ -164,3 +236,9 @@ export default function Header() {
     </nav>
   );
 }
+
+Header.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+  searchValue: PropTypes.string,
+  equipmentTypes: PropTypes.arrayOf(PropTypes.string)
+};

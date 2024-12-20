@@ -5,10 +5,10 @@ from alembic import context
 
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from core.config import DATABASE_URL
-from models.base import Base
+from app.core.config import DATABASE_URL
+from app.db.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -144,7 +144,6 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Dodaj nowy useEffect do śledzenia pozycji SearchSection
   useEffect(() => {
     const handleScroll = () => {
       const searchSection = document.querySelector('.search-section:not(.minimal)');
@@ -205,7 +204,7 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
                   <Link to="/account" className="menu-item">
                     <FaUserCircle className="menu-icon" style={{ marginRight: '8px' }} /> Moje konto
                   </Link>
-                  {userRole === "user" && (
+                  {userRole === "admin" && (
                     <>
                       <Link to="/manage-equipment" className="menu-item">
                         <FaTools className="menu-icon" style={{ marginRight: '8px' }} /> Zarządzanie sprzętem
@@ -215,9 +214,9 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
                       </Link>
                     </>
                   )}
-                  <button onClick={handleLogout} className="menu-item">
+                  <Link onClick={handleLogout} to="/" className="menu-item">
                     <FaSignOutAlt className="menu-icon" style={{ marginRight: '8px' }} /> Wyloguj się
-                  </button>
+                  </Link>
                 </>
               ) : (
                 <>

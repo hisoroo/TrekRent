@@ -7,12 +7,13 @@ from sqlalchemy import func
 def get_stock_level_by_equipment_type(db: Session, eq_type_id: int) -> StockLevel:
     return db.query(StockLevel).filter(StockLevel.equipment_type_id == eq_type_id).first()
 
-def create_stock_level(db: Session, sl_data: StockLevelCreate) -> StockLevel:
-    sl = StockLevel(**sl_data.dict())
-    db.add(sl)
+def create_stock_level(db: Session, stock_level_data) -> StockLevel:
+    # Usuwamy wywołanie .dict() i bezpośrednio tworzymy obiekt
+    stock_level = StockLevel(**stock_level_data)
+    db.add(stock_level)
     db.commit()
-    db.refresh(sl)
-    return sl
+    db.refresh(stock_level)
+    return stock_level
 
 def update_stock_level(db: Session, eq_type_id: int, count: int) -> StockLevel:
     sl = get_stock_level_by_equipment_type(db, eq_type_id)

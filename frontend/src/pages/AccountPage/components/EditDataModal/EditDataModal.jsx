@@ -148,7 +148,7 @@ EditDataModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  initialData: PropTypes.object.isRequired
+  initialData: PropTypes.object
 };
 
 export default EditDataModal;

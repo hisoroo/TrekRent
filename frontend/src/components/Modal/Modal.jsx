@@ -6,7 +6,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal-content">
+      <div className="modal-content" style={{ overflow: 'hidden' }}>
         <div className="modal-header">
           <h2>{title}</h2>
         </div>

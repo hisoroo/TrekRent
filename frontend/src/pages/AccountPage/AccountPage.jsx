@@ -7,8 +7,8 @@ import PasswordModal from './components/PasswordModal/PasswordModal';
 import DeleteAccountModal from './components/DeleteAccountModal/DeleteAccountModal';
 import OrdersSection from './components/OrdersSection/OrdersSection';
 import './AccountPage.css';
-// import { handleTokenExpiration } from '../../utils/handleTokenExpiration';
-// import { checkTokenExpiration } from '../../utils/tokenInterceptor';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { isAuthenticated, getToken } from '../../utils/auth';
 
 export default function AccountPage() {
@@ -44,7 +44,7 @@ export default function AccountPage() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     } finally {
-      console.log('User data:', userData);
+      //
     }
   };
 
@@ -66,7 +66,6 @@ export default function AccountPage() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Pobrane zamówienia:", data);
         const now = new Date();
         
         setActiveOrders(data.filter(order => new Date(order.end_date) >= now));
@@ -106,36 +105,40 @@ export default function AccountPage() {
       if (response.ok) {
         await fetchUserData();
         setIsEditModalOpen(false);
+        toast.success('Dane zostały zaktualizowane pomyślnie');
       } else {
         const data = await response.json();
-        console.error('Error:', data.detail || 'Błąd podczas aktualizacji danych');
-        throw new Error(data.detail || 'Błąd podczas aktualizacji danych');
+        toast.error(data.detail || 'Błąd podczas aktualizacji danych');
       }
     } catch (error) {
       console.error('Error:', error);
-      throw new Error('Błąd podczas aktualizacji danych');
+      toast.error('Wystąpił błąd podczas aktualizacji danych');
     }
   };
 
   const handlePasswordChange = async (oldPassword, newPassword) => {
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:8000/api/users/change-password', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        old_password: oldPassword,
-        new_password: newPassword
-      })
-    });
+    try {
+      const response = await fetch('http://localhost:8000/api/users/change-password', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          old_password: oldPassword,
+          new_password: newPassword
+        })
+      });
 
-    if (response.ok) {
-      alert('Hasło zostało zmienione pomyślnie');
-    } else {
-      const data = await response.json();
-      throw new Error(data.detail || 'Błąd podczas zmiany hasła');
+      if (response.ok) {
+        toast.success('Hasło zostało zmienione pomyślnie');
+      } else {
+        const data = await response.json();
+        toast.error(data.detail || 'Błąd podczas zmiany hasła');
+      }
+    } catch (error) {
+      toast.error('Wystąpił błąd podczas zmiany hasła', error);
     }
   };
 
@@ -154,22 +157,22 @@ export default function AccountPage() {
       });
 
       if (response.ok) {
+        toast.success('Konto zostało usunięte');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         navigate('/');
       } else {
         const error = await response.json();
-        throw new Error(error.detail || 'Błąd podczas usuwania konta');
+        toast.error(error.detail || 'Błąd podczas usuwania konta');
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert(error.message);
+      toast.error('Wystąpił błąd podczas usuwania konta', error);
     }
   };
 
   return (
     <div className="account-page">
-      <Header />
+      <Header onSearch={()=>{}}/>
       <div className="account-container">
         <div 
           className="account-content"
@@ -232,6 +235,18 @@ export default function AccountPage() {
           activeOrders={activeOrders}
           pastOrders={pastOrders}
         />
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

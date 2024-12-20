@@ -98,7 +98,6 @@ input, select {
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
-  min-width: 200px;
   transition: border-color 0.2s ease;
 }
 
@@ -186,7 +185,6 @@ button.delete-button:hover {
 /* Style dla tabeli stanów magazynowych */
 .stock-levels-table {
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -300,7 +298,7 @@ button.delete-button:hover {
 .spinner-buttons {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 5px;
 }
 
 .spinner-buttons button {

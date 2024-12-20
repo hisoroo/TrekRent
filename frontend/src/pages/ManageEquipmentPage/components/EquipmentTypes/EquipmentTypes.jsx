@@ -30,19 +30,31 @@ export default function EquipmentTypes() {
 
   const handleAddType = async (typeData) => {
     try {
+      console.log('Sending data:', typeData); // debugging
       const response = await fetch('http://localhost:8000/api/equipment-types/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(typeData),
+        body: JSON.stringify({
+          name: typeData.name,
+          price: typeData.price_per_day,
+          description: typeData.description || null,
+          image_path: typeData.image_path || null
+        }),
       });
-      if (response.ok) {
-        setIsModalOpen(false);
-        fetchTypes();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server error:', errorData);
+        throw new Error(errorData.detail || 'Unknown error occurred');
       }
+
+      setIsModalOpen(false);
+      fetchTypes();
     } catch (error) {
       console.error('Błąd podczas dodawania typu:', error);
+      alert(error.message);
     }
   };
 
@@ -54,20 +66,32 @@ export default function EquipmentTypes() {
 
   const handleEditSubmit = async (formData) => {
     try {
+      console.log('Sending data:', formData); // debugging
       const response = await fetch(`http://localhost:8000/api/equipment-types/${editingType.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          price: formData.price,
+          description: formData.description || null,
+          image_path: formData.image_path || null
+        }),
       });
-      if (response.ok) {
-        setIsEditModalOpen(false);
-        setEditingType(null);
-        fetchTypes();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server error:', errorData);
+        throw new Error(errorData.detail || 'Unknown error occurred');
       }
+
+      setIsEditModalOpen(false);
+      setEditingType(null);
+      fetchTypes();
     } catch (error) {
       console.error('Błąd podczas edycji typu:', error);
+      alert(error.message);
     }
   };
 

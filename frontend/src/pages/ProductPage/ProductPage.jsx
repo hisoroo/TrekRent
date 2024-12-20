@@ -81,7 +81,7 @@ export default function ProductPage() {
 
   return (
     <>
-      <Header />
+      <Header onSearch={() => {}} />
       <div className="product-page">
         {equipmentType ? (
           <>

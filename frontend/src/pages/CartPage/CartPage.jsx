@@ -44,7 +44,7 @@ export default function CartPage() {
 
   return (
     <div className="cart-page">
-      <Header />
+      <Header onSearch={() => {}} />
       <div className="cart-content">
         {!cartItems.length ? (
           <p className="empty-cart">Twój koszyk jest pusty</p>

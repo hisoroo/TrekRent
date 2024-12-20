@@ -20,8 +20,3 @@ class EquipmentTypeCreate(EquipmentTypeBase):
 
 class EquipmentTypeRead(EquipmentTypeBase):
     id: int
-
-    def dict(self, *args, **kwargs):
-        d = super().dict(*args, **kwargs)
-        d['price'] = float(d['price'])
-        return d

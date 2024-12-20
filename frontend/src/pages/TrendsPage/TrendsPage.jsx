@@ -1,13 +1,31 @@
-import { useState, useEffect } from 'react';
-import Header from '../MainPage/components/Header/Header';
+import { useState, useEffect } from "react";
+import Header from "../MainPage/components/Header/Header";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer
-} from 'recharts';
-import './TrendsPage.css';
-import TimeRangeSelect from '../../components/TimeRangeSelect/TimeRangeSelect';
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+} from "recharts";
+import "./TrendsPage.css";
+import TimeRangeSelect from "../../components/TimeRangeSelect/TimeRangeSelect";
 
-const COLORS = ['#0d47a1', '#1565c0', '#1976d2', '#1e88e5', '#2196f3', '#42a5f5'];
+const COLORS = [
+  "#0d47a1",
+  "#1565c0",
+  "#1976d2",
+  "#1e88e5",
+  "#2196f3",
+  "#42a5f5",
+];
 
 export default function TrendsPage() {
   const [rentalsData, setRentalsData] = useState([]);
@@ -17,29 +35,33 @@ export default function TrendsPage() {
   const [timeRangeShare, setTimeRangeShare] = useState(7);
 
   const timeRangeOptions = [
-    { value: 7, label: 'Ostatni tydzień' },
-    { value: 30, label: 'Ostatni miesiąc' },
-    { value: 90, label: 'Ostatni kwartał' },
-    { value: 365, label: 'Ostatni rok' },
+    { value: 7, label: "Ostatni tydzień" },
+    { value: 30, label: "Ostatni miesiąc" },
+    { value: 90, label: "Ostatni kwartał" },
+    { value: 365, label: "Ostatni rok" },
   ];
 
   const fetchRentalsData = async (days) => {
     try {
-      const rentalsResponse = await fetch(`http://localhost:8000/api/trends/rentals?days=${days}`);
+      const rentalsResponse = await fetch(
+        `http://localhost:8000/api/trends/rentals?days=${days}`
+      );
       const rentalsJson = await rentalsResponse.json();
       setRentalsData(rentalsJson);
     } catch (error) {
-      console.error('Error fetching rentals data:', error);
+      console.error("Error fetching rentals data:", error);
     }
   };
 
   const fetchEquipmentData = async (days) => {
     try {
-      const equipmentResponse = await fetch(`http://localhost:8000/api/trends/equipment?days=${days}`);
+      const equipmentResponse = await fetch(
+        `http://localhost:8000/api/trends/equipment?days=${days}`
+      );
       const equipmentJson = await equipmentResponse.json();
       setEquipmentData(equipmentJson);
     } catch (error) {
-      console.error('Error fetching equipment data:', error);
+      console.error("Error fetching equipment data:", error);
     }
   };
 
@@ -50,7 +72,7 @@ export default function TrendsPage() {
         await fetchEquipmentData(timeRangeShare);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching trends data:', error);
+        console.error("Error fetching trends data:", error);
         setLoading(false);
       }
     };
@@ -71,11 +93,11 @@ export default function TrendsPage() {
       <Header onSearch={handleSearch} />
       <div className="trends-container">
         <h1>Statystyki wypożyczeń</h1>
-        
+
         <div className="chart-section">
           <div className="chart-header">
             <h2>Wypożyczenia w czasie</h2>
-            <TimeRangeSelect 
+            <TimeRangeSelect
               value={timeRange}
               onChange={(value) => setTimeRange(value)}
               options={timeRangeOptions}
@@ -84,27 +106,27 @@ export default function TrendsPage() {
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={rentalsData.timeline}>
               <CartesianGrid strokeDasharray="2 3" />
-              <XAxis 
-                dataKey="date" 
+              <XAxis
+                dataKey="date"
                 angle={-45}
                 textAnchor="end"
                 height={80}
-                tick={{fontSize: 14}}
+                tick={{ fontSize: 14 }}
               />
               <YAxis
-                label={{ 
-                  value: 'Liczba wypożyczeń', 
-                  angle: -90, 
-                  position: 'insideLeft',
-                  style: { textAnchor: 'middle' }
+                label={{
+                  value: "Liczba wypożyczeń",
+                  angle: -90,
+                  position: "insideLeft",
+                  style: { textAnchor: "middle" },
                 }}
               />
-              <Tooltip/>
-              <Legend/>
-              <Line 
-                type="monotone" 
-                dataKey="rentals" 
-                name="Wypożyczenia" 
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="rentals"
+                name="Wypożyczenia"
                 stroke="#1976D2"
                 strokeWidth={2}
               />
@@ -115,7 +137,7 @@ export default function TrendsPage() {
         <div className="chart-section">
           <div className="chart-header">
             <h2>Udział w wypożyczeniach</h2>
-            <TimeRangeSelect 
+            <TimeRangeSelect
               value={timeRangeShare}
               onChange={(value) => setTimeRangeShare(value)}
               options={timeRangeOptions}
@@ -130,12 +152,12 @@ export default function TrendsPage() {
                 cx="50%"
                 cy="50%"
                 outerRadius={150}
-                label={({name, value}) => `${name} (${value}%)`}
+                label={({ name, value }) => `${name} (${value}%)`}
               >
                 {equipmentData.share.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={entry.name === "Inne" ? COLORS[5] : COLORS[index % 5]} 
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.name === "Inne" ? COLORS[5] : COLORS[index % 5]}
                   />
                 ))}
               </Pie>
@@ -144,25 +166,32 @@ export default function TrendsPage() {
                 align="right"
                 verticalAlign="middle"
                 formatter={(value) => {
-                  const item = equipmentData.share.find(i => i.name === value);
+                  const item = equipmentData.share.find(
+                    (i) => i.name === value
+                  );
                   return `${value} (${item?.value}%)`;
                 }}
               />
-              <Tooltip 
-                formatter={(value) => `${value}%`}
-              />
+              <Tooltip formatter={(value) => `${value}%`} />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
         <div className="chart-section">
-            <h2>Stany magazynowe na dzień dzisiejszy</h2>
-            <ResponsiveContainer width="100%" height={400}>
-            <BarChart 
-              data={equipmentData.stock_levels}
-            >
+          <h2>
+            Stany magazynowe na dzień {" "}
+            {new Intl.DateTimeFormat("pl-PL", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            }).format(new Date(Date.now()))}
+          </h2>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={equipmentData.stock_levels}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
+              <XAxis
                 dataKey="name"
                 axisLine={false}
                 tickLine={false}
@@ -170,44 +199,43 @@ export default function TrendsPage() {
                 height={20}
               />
               <YAxis
-                label={{ 
-                  value: 'Liczba sztuk', 
-                  angle: -90, 
-                  position: 'insideLeft',
-                  style: { textAnchor: 'middle' },
-                  offset: 10
+                label={{
+                  value: "Liczba sztuk",
+                  angle: -90,
+                  position: "insideLeft",
+                  style: { textAnchor: "middle" },
+                  offset: 10,
                 }}
               />
               <Tooltip />
-              <Legend 
+              <Legend
                 wrapperStyle={{
-                  paddingLeft: 20
+                  paddingLeft: 20,
                 }}
               />
-              <Bar 
-                dataKey="total" 
+              <Bar
+                dataKey="total"
                 fill="#64b5f6"
                 name="Całkowita ilość"
-                label={{ 
-                  position: 'center',
-                  content: ({name}) => name
+                label={{
+                  position: "center",
+                  content: ({ name }) => name,
                 }}
                 stackId="a"
               />
-              <Bar 
-                dataKey="available" 
-                fill="#1976D2" 
+              <Bar
+                dataKey="available"
+                fill="#1976D2"
                 name="Dostępne sztuki"
-                label={{ 
-                  position: 'center',
-                  content: ({value}) => value
+                label={{
+                  position: "center",
+                  content: ({ value }) => value,
                 }}
                 stackId="a"
               />
             </BarChart>
           </ResponsiveContainer>
         </div>
-
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./ReservationWindow.css";
+import { toast } from "react-toastify";
 
 export default function ReservationWindow({ price, onReserve, equipmentId }) {
   const [startDate, setStartDate] = useState(new Date());
@@ -70,7 +71,7 @@ export default function ReservationWindow({ price, onReserve, equipmentId }) {
 
   const handleSubmit = async () => {
     if (endDate <= startDate) {
-      setError("Data zwrotu musi być późniejsza niż data wypożyczenia.");
+      toast.error("Data zwrotu musi być późniejsza niż data wypożyczenia.")
       return;
     }
 
@@ -117,10 +118,7 @@ export default function ReservationWindow({ price, onReserve, equipmentId }) {
             : 'Produkt tymczasowo niedostępny'}
         </p>
       </div>
-
       {isCostUpdated && !error && <p>Całkowity koszt: {totalCost} zł</p>}
-      {error && <p className="error">{error}</p>}
-      
       <button 
         onClick={handleSubmit} 
         className={`rent-button ${!isAvailable ? 'disabled' : ''}`}

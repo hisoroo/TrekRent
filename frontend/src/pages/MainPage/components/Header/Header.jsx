@@ -56,7 +56,7 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
     const animationInterval = setInterval(() => {
       currentIndex = (currentIndex + 1) % icons.length;
       setCurrentIconIndex(currentIndex);
-    }, 100);
+    }, 50);
 
     const timeout = setTimeout(() => {
       clearInterval(animationInterval);
@@ -68,7 +68,7 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
       clearInterval(animationInterval);
       clearTimeout(timeout);
     };
-  }, [location.pathname]); // Trigger animation on route change
+  }, [location.pathname]);
 
   const CurrentIcon = icons[currentIconIndex];
 
@@ -173,7 +173,6 @@ export default function Header({ onSearch, searchValue, equipmentTypes }) {
         <span>TrekRent</span>
       </Link>
       
-      {/* Dodaj SearchBar w headerze */}
       <div className={`header-search ${showSearchInHeader ? 'visible' : ''}`}>
         <SearchSection 
           minimal={true} 

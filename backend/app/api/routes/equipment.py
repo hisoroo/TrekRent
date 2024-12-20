@@ -56,22 +56,6 @@ def get_available_equipment_by_type(
         raise HTTPException(status_code=404, detail="No available equipment found")
     return equipment
 
-@router.post("/initialize/{equipment_type_id}")
-def initialize_equipment_for_type(
-    equipment_type_id: int,
-    count: int = Query(default=5, ge=1, le=100),
-    db: Session = Depends(get_db)
-):
-    try:
-        equipment_list = equipment_service.create_initial_equipment_for_type(db, equipment_type_id, count)
-        return {
-            "message": f"Successfully created {len(equipment_list)} pieces of equipment",
-            "equipment_type_id": equipment_type_id,
-            "created_count": len(equipment_list)
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
 @router.patch("/{equipment_id}/availability", response_model=EquipmentRead)
 def update_equipment_availability(
     equipment_id: int,

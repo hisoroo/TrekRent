@@ -15,6 +15,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const sessionExpiredMessage = location.state?.message;
+  console.log(sessionExpiredMessage);
 
   useEffect(() => {
     if (sessionExpiredMessage) {

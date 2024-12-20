@@ -7,7 +7,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import ManageEquipmentPage from "./pages/ManageEquipmentPage/ManageEquipmentPage";
-// import TrendsPage from "./pages/TrendsPage/TrendsPage";
+import TrendsPage from "./pages/TrendsPage/TrendsPage";
 
 export default function App() {
   return (
@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/manage-equipment" element={<ManageEquipmentPage />} />
-          {/* <Route path="/trends" element={<TrendsPage />} /> */}
+          <Route path="/trends" element={<TrendsPage />} />
         </Routes>
       </div>
     </Router>

@@ -36,3 +36,10 @@ app.include_router(routes.stock_level.router, prefix="/api", tags=["stock-levels
 
 # Router wypożyczeń
 app.include_router(routes.rentals.router, prefix="/api", tags=["rentals"])
+
+# Router trendów
+app.include_router(
+    routes.trends_router,
+    prefix="/api/trends",
+    tags=["trends"]
+)

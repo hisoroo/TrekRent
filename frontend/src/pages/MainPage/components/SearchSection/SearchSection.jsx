@@ -110,10 +110,4 @@ SearchSection.propTypes = {
   searchValue: PropTypes.string
 };
 
-SearchSection.defaultProps = {
-  equipmentTypes: [],
-  onSearch: () => {},
-  minimal: false
-};
-
 export default SearchSection;

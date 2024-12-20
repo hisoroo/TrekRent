@@ -19,10 +19,8 @@ def create_equipment(
 @router.get("/", response_model=List[EquipmentRead])
 def get_all_equipment(
     db: Session = Depends(get_db),
-    skip: int = 0,
-    limit: int = 100
 ):
-    return db.query(Equipment).offset(skip).limit(limit).all()
+    return db.query(Equipment).all()
 
 @router.get("/{equipment_id}", response_model=EquipmentRead)
 def get_equipment(
@@ -77,7 +75,7 @@ def initialize_equipment_for_type(
 @router.patch("/{equipment_id}/availability", response_model=EquipmentRead)
 def update_equipment_availability(
     equipment_id: int,
-    is_available: bool,
+    is_available: bool = Query(...),
     db: Session = Depends(get_db)
 ):
     equipment = equipment_service.update_equipment_availability(db, equipment_id, is_available)

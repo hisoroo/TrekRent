@@ -38,6 +38,10 @@ class UserResponse(UserBase):
     id: int
     user_group: Optional[str] = None
 
+class PasswordChange(BaseModel):
+    old_password: str
+    new_password: str
+
 class Token(BaseModel):
     access_token: str
     token_type: str

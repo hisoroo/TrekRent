@@ -2,7 +2,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, PasswordChange
 from app.services.user_service import UserService
 from app.core.security import get_current_user
 
@@ -45,3 +45,17 @@ def delete_user_me(
 ):
     user_service = UserService(db)
     return user_service.delete_user(current_user.id)
+
+@router.post("/change-password")
+def change_password(
+    password_data: PasswordChange,
+    current_user = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    user_service = UserService(db)
+    user_service.change_password(
+        current_user.id,
+        password_data.old_password,
+        password_data.new_password
+    )
+    return {"message": "Hasło zostało zmienione pomyślnie"}

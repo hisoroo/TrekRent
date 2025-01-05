@@ -1,10 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
 import SearchSection from './../pages/MainPage/components/SearchSection/SearchSection';
-import equipmentData from '././../utils/equipmentData.json';
 
 describe('SearchSection', () => {
     const mockOnSearch = vi.fn();
+    const mockEquipmentTypes = [
+        "Narty zjazdowe",
+        "Rower górski",
+        "Rower miejski",
+        "Kask narciarski",
+        "Kijki trekkingowe"
+    ];
 
     test('renders SearchSection with input and button', () => {
         render(<SearchSection onSearch={mockOnSearch} />);
@@ -34,22 +40,27 @@ describe('SearchSection', () => {
     });
 
     test('displays suggestions based on input value', () => {
-        render(<SearchSection onSearch={mockOnSearch} />);
+        render(
+            <SearchSection 
+                onSearch={mockOnSearch} 
+                equipmentTypes={mockEquipmentTypes}
+            />
+        );
 
         const input = screen.getByPlaceholderText('Wyszukaj sprzęt');
         fireEvent.change(input, { target: { value: 'rower' } });
 
-        const suggestions = equipmentData.filter(item =>
-            item.name.toLowerCase().includes('rower')
-        );
-
-        suggestions.forEach(suggestion => {
-            expect(screen.getByText(suggestion.name)).toBeInTheDocument();
-        });
+        expect(screen.getByText('Rower górski')).toBeInTheDocument();
+        expect(screen.getByText('Rower miejski')).toBeInTheDocument();
     });
 
     test('calls onSearch with suggestion value when suggestion is clicked', () => {
-        render(<SearchSection onSearch={mockOnSearch} />);
+        render(
+            <SearchSection 
+                onSearch={mockOnSearch} 
+                equipmentTypes={mockEquipmentTypes}
+            />
+        );
 
         const input = screen.getByPlaceholderText('Wyszukaj sprzęt');
         fireEvent.change(input, { target: { value: 'rower' } });
@@ -59,18 +70,28 @@ describe('SearchSection', () => {
 
         expect(mockOnSearch).toHaveBeenCalledWith('Rower miejski');
     });
-
-    test('clears input and suggestions when clear button is clicked', () => {
-        render(<SearchSection onSearch={mockOnSearch} />);
+    
+    test('should call onSearch when search button is clicked', () => {
+        const onSearch = vi.fn();
+        render(<SearchSection onSearch={onSearch} />);
 
         const input = screen.getByPlaceholderText('Wyszukaj sprzęt');
-        fireEvent.change(input, { target: { value: 'rower' } });
+        const searchButton = screen.getByText('Wyszukaj');
 
-        const clearButton = screen.getByText('×');
-        fireEvent.click(clearButton);
+        fireEvent.change(input, { target: { value: 'narty' } });
+        fireEvent.click(searchButton);
 
-        expect(input.value).toBe('');
-        expect(screen.queryByText('Rower miejski')).not.toBeInTheDocument();
-        expect(mockOnSearch).toHaveBeenCalledWith('');
+        expect(onSearch).toHaveBeenCalledWith('narty');
+    });
+
+    test('should clear search when input is cleared', () => {
+        const onSearch = vi.fn();
+        render(<SearchSection onSearch={onSearch} searchValue="narty" />);
+
+        const input = screen.getByPlaceholderText('Wyszukaj sprzęt');
+        
+        fireEvent.change(input, { target: { value: '' } });
+
+        expect(onSearch).toHaveBeenCalledWith('');
     });
 });

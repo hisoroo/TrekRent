@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import CartPage from '../pages/CartPage/CartPage';
-import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
+import '@testing-library/jest-dom';
 
 describe('CartPage', () => {
     const mockCartItems = [
@@ -56,6 +56,29 @@ describe('CartPage', () => {
         const updatedCart = JSON.parse(localStorage.getItem('cart'));
         expect(updatedCart.items).toHaveLength(1);
         expect(updatedCart.items[0].name).toBe('Test Item 2');
+    });
+
+    test('should remove item from cart', () => {
+        const cartItems = {
+            items: [{
+                id: 1,
+                name: 'Narty',
+                timestamp: '2024-01-01T12:00:00Z'
+            }]
+        };
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+
+        render(
+            <BrowserRouter>
+                <CartPage />
+            </BrowserRouter>
+        );
+
+        const removeButton = screen.getByRole('button', { name: /usuń/i });
+        fireEvent.click(removeButton);
+
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        expect(cart.items).toHaveLength(0);
     });
 
     test('handles localStorage errors gracefully', () => {

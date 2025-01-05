@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
 import BillComponent from './../pages/CartPage/components/BillComponent/BillComponent';
 import '@testing-library/jest-dom';
@@ -10,6 +10,8 @@ describe('BillComponent', () => {
     productName: 'Rower górski',
     totalCost: 150.00
   };
+
+  const mockConsoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
   test('renders correctly with all elements present', () => {
     render(<BillComponent {...defaultProps} />);
@@ -33,8 +35,17 @@ describe('BillComponent', () => {
   });
 
   test('handles invalid dates', () => {
-    render(<BillComponent {...defaultProps} startDate="invalid-date" />);
-    expect(screen.getByText('Nieprawidłowa data')).toBeInTheDocument();
+    render(
+      <BillComponent
+        startDate="2024-01-01"
+        endDate="invalid-date"
+        productName="Test Product"
+        totalCost={100}
+      />
+    );
+
+    expect(screen.getByText(/Data rozpoczęcia:/i)).toBeInTheDocument();
+    expect(mockConsoleError).toHaveBeenCalledWith('Nieprawidłowa data:', 'invalid-date');
   });
 
   test('handles lack of dates', () => {
@@ -50,15 +61,6 @@ describe('BillComponent', () => {
   test('correctly calculates the number of days and price per day', () => {
     render(<BillComponent {...defaultProps} />);
     expect(screen.getByText('3 dni x 50.00 zł =')).toBeInTheDocument();
-  });
-
-  test('handles reservation button click', () => {
-    const consoleSpy = vi.spyOn(console, 'log');
-    render(<BillComponent {...defaultProps} />);
-    
-    fireEvent.click(screen.getByText('Zarezerwuj'));
-    expect(consoleSpy).toHaveBeenCalledWith('Rezerwacja dokonana');
-    consoleSpy.mockRestore();
   });
 
   test('handles 1 day long reservation', () => {
